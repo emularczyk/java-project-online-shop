@@ -1,2 +1,2 @@
-# java-project-online-shop
-Sklep internetowy
+# Sklep internetowy
+Projekt: Zaawansowane technologie usług sieciowych
