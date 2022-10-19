@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="JPOS-001-001.xml" author="emilia and wojciech">
+        <sql>
+            CREATE TABLE users(
+            user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(40) UNIQUE NOT NULL,
+            password VARCHAR(40) NOT NULL,
+            email VARCHAR(125) UNIQUE NOT NULL,
+            role ENUM('ADMIN','USER') NOT NULL,
+            status ENUM('UNCONFIRMED','CONFIRMED') DEFAULT 'UNCONFIRMED',
+            loaylty_points INT DEFAULT 0
+            );
+
+            CREATE TABLE categories(
+            category_name VARCHAR(40) PRIMARY KEY
+            );
+
+            CREATE TABLE products(
+            product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(125) UNIQUE NOT NULL,
+            price DECIMAL NOT NULL,
+            amount INT NOT NULL,
+            photo VARCHAR(2000),
+            youtube VARCHAR(2000),
+            description VARCHAR(3000),
+            category VARCHAR(40),
+            FOREIGN KEY(category) REFERENCES categories(category_name)
+            );
+
+            CREATE TABLE product_orders(
+            product_orders_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            amount INT NOT NULL,
+            product BIGINT,
+            FOREIGN KEY(product) REFERENCES products(product_id)
+            );
+
+            CREATE TABLE orders(
+            orders_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            total_cost DECIMAL NOT NULL,
+            date TIMESTAMP NOT NULL,
+            status ENUM('CONFIRMED','PAID','SENT') DEFAULT 'CONFIRMED',
+            user_id BIGINT NOT NULL,
+            FOREIGN KEY(user_id) REFERENCES users(user_id),
+            product_order BIGINT NOT NULL,
+            FOREIGN KEY(product_order) REFERENCES product_orders(product_orders_id)
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

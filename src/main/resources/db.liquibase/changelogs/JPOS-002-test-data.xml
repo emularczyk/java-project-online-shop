@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="JPOS-001-001.xml" author="emilia and wojciech">
+        <sql>
+
+            INSERT INTO users (username, password, email, role, status)
+            VALUES('admin', 'password', 'admin@mail.com', 'ADMIN', 'CONFIRMED'),
+            ('user', 'password', 'user@mail.com', 'USER', 'CONFIRMED'),
+            ('user2', 'password', 'user2@mail.com', 'USER', 'UNCONFIRMED');
+
+            INSERT INTO categories (category_name)
+            VALUES('czekolady'),
+            ('ciastka'),
+            ('wafle');
+
+            INSERT INTO products(name, price, amount, description,category)
+            VALUES('Milka', 4.99, 31, 'Najlepsza.','czekolady'),
+            ('Hit', 2.99, 1000, 'Hit!','ciastka');
+
+            INSERT INTO product_orders(amount, product)
+            VALUES(3,1),
+            (1,1);
+
+            INSERT INTO orders(total_cost,date,status,user_id,product_order)
+            VALUES(18.96,'2021-12-31 23:59:59','CONFIRMED',1,1);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
