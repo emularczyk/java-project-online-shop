@@ -1,4 +1,4 @@
-package com.candyshop.islodycze.dto;
+package com.candyshop.islodycze.product;
 
 import com.candyshop.islodycze.model.Category;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+class ProductDTO {
 
     private Long productId;
     private String productName;

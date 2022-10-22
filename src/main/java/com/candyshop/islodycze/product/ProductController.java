@@ -1,10 +1,6 @@
-package com.candyshop.islodycze.controller;
+package com.candyshop.islodycze.product;
 
-import com.candyshop.islodycze.dto.ProductDTO;
-import com.candyshop.islodycze.mappers.ProductMapper;
 import com.candyshop.islodycze.model.Product;
-import com.candyshop.islodycze.service.ProductService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

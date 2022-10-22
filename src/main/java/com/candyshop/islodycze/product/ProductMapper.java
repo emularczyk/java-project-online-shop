@@ -1,6 +1,6 @@
-package com.candyshop.islodycze.mappers;
+package com.candyshop.islodycze.product;
 
-import com.candyshop.islodycze.dto.ProductDTO;
+import com.candyshop.islodycze.mappers.Mapper;
 import com.candyshop.islodycze.model.Product;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ProductMapper extends Mapper<Product, ProductDTO> {
+class ProductMapper extends Mapper<Product, ProductDTO> {
 
     @Override
     public Product toEntity(ProductDTO productDTO) {

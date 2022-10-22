@@ -1,10 +1,10 @@
-package com.candyshop.islodycze.repository;
+package com.candyshop.islodycze.product;
 
 import com.candyshop.islodycze.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByProductName(String productName);
 }

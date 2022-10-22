@@ -1,8 +1,8 @@
-package com.candyshop.islodycze.service;
+package com.candyshop.islodycze.product;
 
 import com.candyshop.islodycze.exceptions.ApplicationException;
 import com.candyshop.islodycze.model.Product;
-import com.candyshop.islodycze.repository.ProductRepository;
+import com.candyshop.islodycze.product.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public Product updateProduct(final Product product) {
-        if(productRepository.findById(product.getProductId()) == null) {
+        if(productRepository.findById(product.getProductId()).isEmpty()) {
             // wyjątek nie uruchamia się - DO POPRAWY
             throw new ApplicationException("Product with id " + product.getProductId() + " does not exist.");
         }
