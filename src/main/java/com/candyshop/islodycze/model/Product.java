@@ -35,5 +35,6 @@ public class Product {
     private String description;
 
     @ManyToMany
+    @ToString.Exclude
     private Set<Category> category;
 }

@@ -33,5 +33,6 @@ public class Order {
     private User userId;
 
     @ManyToMany
+    @ToString.Exclude
     private Set<ProductOrder> productOrder;
 }
