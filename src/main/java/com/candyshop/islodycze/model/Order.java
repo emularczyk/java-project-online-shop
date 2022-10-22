@@ -24,7 +24,7 @@ public class Order {
 
     private String totalCost;
 
-    private LocalDateTime date;
+    private LocalDateTime orderDate;
 
     @Enumerated(value=EnumType.STRING)
     private OrderStatus orderStatus;

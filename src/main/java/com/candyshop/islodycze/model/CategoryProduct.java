@@ -20,10 +20,10 @@ public class CategoryProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productOrderId;
+    private Long categoryProductId;
 
     @ManyToMany
-    private Set<Product> product;
+    private Set<Product> productId;
 
     @ManyToMany
     private Set<Category> category;

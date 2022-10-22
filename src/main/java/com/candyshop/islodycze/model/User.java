@@ -22,7 +22,7 @@ public class User {
 
     private String username;
 
-    private String password;
+    private String userPassword;
 
     private String email;
 
@@ -30,7 +30,7 @@ public class User {
     private Role role;
 
     @Enumerated(value = EnumType.STRING)
-    private UserStatus userStatus;
+    private UserStatus verificationStatus;
 
     private int loyaltyPoints;
 }

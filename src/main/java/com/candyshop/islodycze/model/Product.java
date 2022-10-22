@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Table(name = "users")
+@Table(name = "products")
 @ToString
 @DynamicInsert
 public class Product {
@@ -22,7 +22,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    private String name;
+    private String productName;
 
     private BigDecimal price;
 

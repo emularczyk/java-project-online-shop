@@ -10,10 +10,10 @@
             CREATE TABLE users(
             user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(40) UNIQUE NOT NULL,
-            password VARCHAR(40) NOT NULL,
+            user_password VARCHAR(40) NOT NULL,
             email VARCHAR(125) UNIQUE NOT NULL,
             role ENUM('ADMIN','USER') NOT NULL,
-            status ENUM('UNCONFIRMED','CONFIRMED') DEFAULT 'UNCONFIRMED',
+            verification_status ENUM('UNCONFIRMED','CONFIRMED') DEFAULT 'UNCONFIRMED',
             loyalty_points INT DEFAULT 0 NOT NULL
             );
 
@@ -23,7 +23,7 @@
 
             CREATE TABLE products(
             product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(125) UNIQUE NOT NULL,
+            product_name VARCHAR(125) UNIQUE NOT NULL,
             price DECIMAL NOT NULL,
             amount INT NOT NULL,
             photo VARCHAR(2000),
@@ -32,7 +32,7 @@
             );
 
             CREATE TABLE categories_product(
-            categories_product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            category_product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             product_id BIGINT NOT NULL,
             FOREIGN KEY(product_id) REFERENCES products(product_id),
             category VARCHAR(40) NOT NULL,
@@ -49,8 +49,8 @@
             CREATE TABLE orders(
             orders_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             total_cost DECIMAL NOT NULL,
-            date TIMESTAMP NOT NULL,
-            status ENUM('CONFIRMED','PAID','SENT') DEFAULT 'CONFIRMED' NOT NULL,
+            order_date TIMESTAMP NOT NULL,
+            order_status ENUM('CONFIRMED','PAID','SENT') DEFAULT 'CONFIRMED' NOT NULL,
             user_id BIGINT NOT NULL,
             FOREIGN KEY(user_id) REFERENCES users(user_id),
             product_order BIGINT NOT NULL,

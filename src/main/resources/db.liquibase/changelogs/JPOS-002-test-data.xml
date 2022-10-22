@@ -8,7 +8,7 @@
     <changeSet id="JPOS-001-001.xml" author="emilia and wojciech">
         <sql>
 
-            INSERT INTO users (username, password, email, role, status)
+            INSERT INTO users (username, user_password, email, role, verification_status)
             VALUES('admin', 'password', 'admin@mail.com', 'ADMIN', 'CONFIRMED'),
             ('user', 'password', 'user@mail.com', 'USER', 'CONFIRMED'),
             ('user2', 'password', 'user2@mail.com', 'USER', 'UNCONFIRMED');
@@ -18,7 +18,7 @@
             ('ciastka'),
             ('wafle');
 
-            INSERT INTO products(name, price, amount, description)
+            INSERT INTO products(product_name, price, amount, description)
             VALUES('Milka', 4.99, 31, 'Najlepsza!'),
             ('Hit', 2.99, 1000, 'Hit!');
 
@@ -30,7 +30,7 @@
             VALUES(3,1),
             (1,1);
 
-            INSERT INTO orders(total_cost,date,status,user_id,product_order)
+            INSERT INTO orders(total_cost,order_date,order_status,user_id,product_order)
             VALUES(18.96,'2021-12-31 23:59:59','CONFIRMED',1,1);
 
         </sql>
