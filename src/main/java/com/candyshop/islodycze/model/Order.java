@@ -1,5 +1,7 @@
 package com.candyshop.islodycze.model;
 
+import com.candyshop.islodycze.model.Enum.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
@@ -20,18 +22,25 @@ import java.util.Set;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ordersId;
+    private Long orderId;
 
     private String totalCost;
 
     private LocalDateTime orderDate;
 
-    @Enumerated(value=EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
     @ManyToOne
-    private User userId;
+    @JoinColumn(name = "user_id_fk")
+    private User userIdFk;
 
     @ManyToMany
-    private Set<ProductOrder> productOrder;
+    @JoinTable(
+            name = "product_orders_orders",
+            joinColumns = @JoinColumn(name = "orders_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_order_id")
+    )
+    @ToString.Exclude
+    private Set<ProductOrder> productOrderFk;
 }

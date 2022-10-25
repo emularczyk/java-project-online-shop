@@ -18,20 +18,16 @@
             ('ciastka'),
             ('wafle');
 
-            INSERT INTO products(product_name, price, amount, description)
-            VALUES('Milka', 4.99, 31, 'Najlepsza!'),
-            ('Hit', 2.99, 1000, 'Hit!');
+            INSERT INTO products(product_name, price, amount, description,category_fk)
+            VALUES('Milka', 4.99, 31, 'Najlepsza!', 'czekolady'),
+            ('Hit', 2.99, 1000, 'Hit!', 'wafle');
 
-            INSERT INTO categories_product(product_id, category)
-            VALUES('1','czekolady'),
-            ('2','ciastka');
+            INSERT INTO product_orders(amount, product_fk)
+            VALUES(3, 1),
+            (1, 1);
 
-            INSERT INTO product_orders(amount, product)
-            VALUES(3,1),
-            (1,1);
-
-            INSERT INTO orders(total_cost,order_date,order_status,user_id,product_order)
-            VALUES(18.96,'2021-12-31 23:59:59','CONFIRMED',1,1);
+            INSERT INTO orders(total_cost, order_date,order_status, user_id_fk, product_order_fk)
+            VALUES(18.96, '2021-12-31 23:59:59', 'CONFIRMED', 1, 1);
 
         </sql>
     </changeSet>
