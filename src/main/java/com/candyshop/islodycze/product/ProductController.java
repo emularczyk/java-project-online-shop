@@ -19,7 +19,7 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @PostMapping("/product")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody final ProductDTO productDTO){
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody final ProductDTO productDTO) {
         final Product product = productMapper.toEntity(productDTO);
         final Product createdProduct = productService.createProduct(product);
         return ResponseEntity
@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable final Long id) {
         final Product product = productService.getProductById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -43,20 +43,20 @@ public class ProductController {
                 .body(productMapper.toDto(productList));
     }
 
-    @PutMapping("/product")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody final ProductDTO productDTO){
-        final Product product = productMapper.toEntity(productDTO);
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable final Long id, @RequestBody final ProductDTO productDTO) {
+        final Product product = productMapper
+                .toEntity(productDTO)
+                .setProductId(id);
         final Product updatedProduct = productService.updateProduct(product);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productMapper.toDto(updatedProduct));
     }
 
-//    @JsonIgnoreProperties(value= {"suppliers"})
     @DeleteMapping("/product/{id}")
-    public ResponseEntity<ProductDTO> deleteProductById(@PathVariable Long id) {
-        // działa, tylko nie zwraca JSONa po usunięciu - OGARNĄĆ
-        final Product deletedProduct = productService.deleteProductById(id);
+    public ResponseEntity<ProductDTO> deleteProductById(@PathVariable final Long id) {
+        Product deletedProduct = productService.deleteProductById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productMapper.toDto(deletedProduct));

@@ -5,6 +5,8 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +24,10 @@ public class ProductOrder {
 
     private int amount;
 
-    @ManyToOne
-    private Product product;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn (name = "product_fk")
+    private Product productFk;
+
+    @ManyToMany(mappedBy = "productOrderFk")
+    private Set<Order> orders = new HashSet<>();
 }

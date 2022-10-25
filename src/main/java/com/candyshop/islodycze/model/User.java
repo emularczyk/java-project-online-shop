@@ -1,10 +1,14 @@
 package com.candyshop.islodycze.model;
 
+import com.candyshop.islodycze.model.Enum.Role;
+import com.candyshop.islodycze.model.Enum.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,4 +37,7 @@ public class User {
     private UserStatus verificationStatus;
 
     private int loyaltyPoints;
+
+    @OneToMany(mappedBy = "userIdFk")
+    private Set<Order> orders = new HashSet<>();
 }

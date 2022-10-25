@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -34,7 +35,15 @@ public class Product {
 
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "categories_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_name")
+    )
     @ToString.Exclude
-    private Set<Category> category;
+    private Set<Category> categoryFk = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "productFk")
+    private Set<ProductOrder> productOrders = new HashSet<>();
 }

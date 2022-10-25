@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 class ProductDTO {
 
-    private Long productId;
+    private Long productId; //TODO: usunąć po implementacji GUI
     private String productName;
     private BigDecimal price;
     private int amount;

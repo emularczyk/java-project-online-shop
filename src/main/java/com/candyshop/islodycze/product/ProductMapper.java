@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 class ProductMapper extends Mapper<Product, ProductDTO> {
 
     @Override
-    public Product toEntity(ProductDTO productDTO) {
+    public Product toEntity(final ProductDTO productDTO) {
         return new Product()
                 .setProductId(productDTO.getProductId())
                 .setProductName(productDTO.getProductName())
@@ -20,11 +20,11 @@ class ProductMapper extends Mapper<Product, ProductDTO> {
                 .setPhoto(productDTO.getPhoto())
                 .setYoutube(productDTO.getYoutube())
                 .setDescription(productDTO.getDescription())
-                .setCategory(productDTO.getCategory());
+                .setCategoryFk(productDTO.getCategory());
     }
 
     @Override
-    public ProductDTO toDto(Product product) {
+    public ProductDTO toDto(final Product product) {
         return new ProductDTO()
                 .setProductId(product.getProductId())
                 .setProductName(product.getProductName())
@@ -33,18 +33,18 @@ class ProductMapper extends Mapper<Product, ProductDTO> {
                 .setPhoto(product.getPhoto())
                 .setYoutube(product.getYoutube())
                 .setDescription(product.getDescription())
-                .setCategory(product.getCategory());
+                .setCategory(product.getCategoryFk());
     }
 
     @Override
-    public List<Product> toEntity(List<ProductDTO> productDTOS) {
+    public List<Product> toEntity(final List<ProductDTO> productDTOS) {
         return productDTOS.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductDTO> toDto(List<Product> products) {
+    public List<ProductDTO> toDto(final List<Product> products) {
         return products.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
