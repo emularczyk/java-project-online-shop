@@ -7,4 +7,10 @@
 
     <include relativeToChangelogFile="true" file="changelogs/JPOS-001-create-tables.xml"/>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-002-test-data.xml"/>
+
+    <changeSet id="1" author="mateusz">
+        <sql>
+            ALTER TABLE users ALTER COLUMN user_password VARCHAR(60);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
