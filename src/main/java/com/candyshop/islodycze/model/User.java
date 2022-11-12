@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 @Table(name = "users")
 @ToString
 @DynamicInsert
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -33,11 +34,14 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    private String verificationCode;
+
     @Enumerated(value = EnumType.STRING)
     private UserStatus verificationStatus;
 
     private int loyaltyPoints;
 
     @OneToMany(mappedBy = "userIdFk")
+    @ToString.Exclude
     private Set<Order> orders = new HashSet<>();
 }
