@@ -1,7 +1,6 @@
 package com.candyshop.islodycze.model;
 
 import com.candyshop.islodycze.model.Enum.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;

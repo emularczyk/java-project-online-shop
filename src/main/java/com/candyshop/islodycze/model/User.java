@@ -34,11 +34,14 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    private String verificationCode;
+
     @Enumerated(value = EnumType.STRING)
     private UserStatus verificationStatus;
 
     private int loyaltyPoints;
 
     @OneToMany(mappedBy = "userIdFk")
+    @ToString.Exclude
     private Set<Order> orders = new HashSet<>();
 }
