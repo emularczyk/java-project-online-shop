@@ -2,6 +2,7 @@ package com.candyshop.islodycze.registration;
 
 import java.util.Collection;
 
+import com.candyshop.islodycze.model.Enum.UserStatus;
 import com.candyshop.islodycze.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,11 +47,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
-    }
-
-    public String getFullName() {
-        return user.getUsername();
+        return user.getVerificationStatus() == UserStatus.CONFIRMED;
     }
 
 }
