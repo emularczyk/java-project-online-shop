@@ -9,10 +9,20 @@
 </head>
 <body>
 <div class="container text-center">
-    <h1>Welcome to CodeJava.net</h1>
-    <h3><a th:href="@{/users}">List of Users</a></h3>
-    <h3><a th:href="@{/register}">Register</a></h3>
-    <h3><a th:href="@{/login}">Login</a></h3>
+    <h1>MainMenu</h1>
+    <div th:fragment="navbar" class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class=""><a href="./signup_form.html">Registration</a></li>
+                        <li class=""><a href="./users.html">Users</a></li>
+                        <li class=""><a href="./shoppingCart.html">Shoping Cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
