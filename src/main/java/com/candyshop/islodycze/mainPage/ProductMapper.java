@@ -1,4 +1,4 @@
-package com.candyshop.islodycze.product;
+package com.candyshop.islodycze.mainPage;
 
 import com.candyshop.islodycze.mappers.Mapper;
 import com.candyshop.islodycze.model.Product;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-class ProductMapper extends Mapper<Product, ProductDTO> {
+class ProductMapper extends Mapper<Product, ProductDTO>{
 
     @Override
     public Product toEntity(final ProductDTO productDTO) {

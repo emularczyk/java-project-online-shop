@@ -16,50 +16,50 @@ import java.util.List;
 @Controller
 public class RegistrationController {
 
-        @Autowired
-        private UserRepository userRepo;
+    @Autowired
+    private UserRepository userRepo;
 
-        @Autowired
-        private UserServices service;
+    @Autowired
+    private UserServices service;
 
-        @GetMapping("")
-        public String viewHomePage() {
-            return "index";
+    @GetMapping("")
+    public String viewHomePage() {
+        return "index";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+
+        return "signup_form";
+    }
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        List<User> listUsers = userRepo.findAll();
+        model.addAttribute("listUsers", listUsers);
+
+        return "users";
+    }
+
+    @PostMapping("/process_register")
+    public String processRegister(User user, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
+        service.register(user, getSiteURL(request));
+        return "register_success";
+    }
+
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
+
+    @GetMapping("/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (service.verify(code)) {
+            return "verify_success";
+        } else {
+            return "verify_fail";
         }
-
-        @GetMapping("/register")
-        public String showRegistrationForm(Model model) {
-                model.addAttribute("user", new User());
-
-                return "signup_form";
-        }
-
-        @GetMapping("/users")
-        public String listUsers(Model model) {
-                List<User> listUsers = userRepo.findAll();
-                model.addAttribute("listUsers", listUsers);
-
-                return "users";
-        }
-
-        @PostMapping("/process_register")
-        public String processRegister(User user, HttpServletRequest request)
-                throws UnsupportedEncodingException, MessagingException {
-                service.register(user, getSiteURL(request));
-                return "register_success";
-        }
-
-        private String getSiteURL(HttpServletRequest request) {
-                String siteURL = request.getRequestURL().toString();
-                return siteURL.replace(request.getServletPath(), "");
-        }
-
-        @GetMapping("/verify")
-        public String verifyUser(@Param("code") String code) {
-                if (service.verify(code)) {
-                        return "verify_success";
-                } else {
-                        return "verify_fail";
-                }
-        }
+    }
 }
