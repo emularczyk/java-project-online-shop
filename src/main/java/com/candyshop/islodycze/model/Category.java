@@ -1,5 +1,6 @@
 package com.candyshop.islodycze.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -22,6 +23,7 @@ public class Category {
     @Id
     private String categoryName;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categoryFk")
     private Set<Product> products = new HashSet<>();
 }

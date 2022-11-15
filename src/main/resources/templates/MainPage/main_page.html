@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Search Products</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container text-center">
+    <h1>Search Products</h1>
+
+    <a th:href="@{/add_productForm}" class="btn btn-primary mb-2">Add Product</a>
+    <form th:action="@{/searchProducts}">
+
+        <h3>Filters</h3>
+        <div>
+            <label>Price to:</label>
+            <input type="text" th:field="${productSearchCriteria.searchedPriceLimit}"/>
+        </div>
+        <div>
+            <label>Only available:</label>
+            <input type="checkbox" th:field="${productSearchCriteria.showOnlyAvailable}" th:value="true">
+        </div>
+        <ul th:each="category : ${categoryList}">
+            <div>
+                <label th:text="${category.categoryName}"></label>
+                <input type="checkbox" th:field="${productSearchCriteria.searchedCategories}"
+                       th:value="${category.categoryName}">
+            </div>
+        </ul>
+        <div class="col-8">
+            <input type="text" th:field="${productSearchCriteria.searchedPhrase}"/>
+            <button type="submit" class="btn btn-primary mb-1" >Search</button>
+            <a th:href="@{'/searchProducts?productName='}" class="btn btn-primary mb-1">Clear</a>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th><a th:href="@{'/searchProducts?productName=' + ${productSearchCriteria.searchedPhrase} +
+                    '&pageNumber=' + ${productPage.pageNumber} +
+                    '&pageSize=' + ${productPage.pageSize} +
+                    '&sortBy=' + ${productPage.sortBy} +
+                    '&sortingDirection=' + ${productPage.sortingDirection} +
+                    '&sortingAction=productName'}">
+                    Product Name</a></th>
+                <th><a th:href="@{'/searchProducts?productName=' + ${productSearchCriteria.searchedPhrase} +
+                    '&pageNumber=' + ${productPage.pageNumber} +
+                    '&pageSize=' + ${productPage.pageSize} +
+                    '&sortBy=' + ${productPage.sortBy} +
+                    '&sortingDirection=' + ${productPage.sortingDirection}+
+                    '&sortingAction=price'}">
+                    Price</a></th>
+                <th><a th:href="@{'/searchProducts?productName=' + ${productSearchCriteria.searchedPhrase} +
+                    '&pageNumber=' + ${productPage.pageNumber} +
+                    '&pageSize=' + ${productPage.pageSize} +
+                    '&sortBy=' + ${productPage.sortBy} +
+                    '&sortingDirection=' + ${productPage.sortingDirection}+
+                    '&sortingAction=amount'}">
+                    Amount</a></th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="product: ${productList}">
+                <td>
+                    <a th:text="${product.productName}"
+                       th:href="@{'/product/'+ ${product.productId}}"/>
+                </td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.amount}"></td>
+                <td>
+                    <table>
+                        <tr th:each="category: ${product.categoryFk}">
+                            <td th:text="${category.categoryName}"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><a th:href="@{'/editProductForm/'+${product.productId}}" class="btn btn-primary mb-2">
+                    Edit Product</a>
+                    <a method = delete th:href="@{'/deleteProduct/'+${product.productId}}" met class="btn btn-primary mb-2">
+                        Delete Product</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="text" th:field="${productPage.pageNumber}"/>
+        <input type="text" th:field="${productPage.pageSize}"/>
+        <input type="text" th:field="${productPage.sortBy}"/>
+        <input type="text" th:field="${productPage.sortingDirection}"/>
+    </form>
+</div>
+</body>
+</html>

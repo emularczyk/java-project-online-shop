@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Add Products</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2> Add Product</h2>
+    <hr/>
+    <form th:action="@{/saveProduct}" method="post">
+        <input type="hidden" th:field="${productDTO.productId}" placeholder="Enter name of product" class="form-control" required/>
+        <input type="text" th:field="${productDTO.productName}" placeholder="Enter name of product" class="form-control" required />
+        <input type="number" th:field="*{productDTO.price}" placeholder="Enter price of product" class="form-control" required/>
+        <input type="number" th:field="${productDTO.amount}" placeholder="Enter amount of product" class="form-control" required/>
+        <!--        TODO: images-->
+        <!--        TODO: youtube-->
+        <input type="text" th:field="*{productDTO.description}" placeholder="Enter description of product" class="form-control" />
+
+        <ul th:each="category : ${categoryList}">
+            <div>
+                <label th:text="${category.categoryName}"></label>
+                <input type="checkbox" th:field="${productDTO.category}"
+                       th:value="${category.categoryName}">
+<!--                th:field="${productDTO.category}"-->
+            </div>
+        </ul>
+
+
+        <button  type="submit" class="btn btn-primary">Save product</button>
+    </form>
+</div>
+</body>
+</html>

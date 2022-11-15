@@ -49,11 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users").hasAuthority("ADMIN")
                 .and().authorizeRequests().antMatchers("/console/**").permitAll()
-                .anyRequest().hasAnyAuthority("ADMIN", "USER")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .usernameParameter("email")
-                .defaultSuccessUrl("/products")
+                .defaultSuccessUrl("/searchProducts")
                 .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
@@ -61,6 +61,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
-
-
 }
