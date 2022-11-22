@@ -32,7 +32,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id_fk")
-    private User userIdFk;
+    private UserEntity userIdFk;
 
     @ManyToMany
     @JoinTable(

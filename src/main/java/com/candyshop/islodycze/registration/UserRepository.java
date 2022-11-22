@@ -1,11 +1,11 @@
 package com.candyshop.islodycze.registration;
 
-import com.candyshop.islodycze.model.User;
+import com.candyshop.islodycze.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    User findByEmail(String email);
+    UserEntity findByEmail(String email);
 
-    User findByVerificationCode(String code);
+    UserEntity findByVerificationCode(String code);
 }

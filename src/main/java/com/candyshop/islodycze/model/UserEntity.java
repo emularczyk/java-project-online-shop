@@ -20,7 +20,7 @@ import java.util.Set;
 @Table(name = "users")
 @ToString
 @DynamicInsert
-public class User implements Serializable {
+public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
