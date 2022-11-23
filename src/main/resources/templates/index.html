@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Welcome to CodeJava Home</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Islodycze</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+
 </head>
 <body>
-<div class="container text-center">
-    <h1>MainMenu</h1>
-    <div th:fragment="navbar" class="navbar navbar-inverse navbar-static-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li class=""><a href="./signup_form.html">Registration</a></li>
-                        <li class=""><a href="./users.html">Users</a></li>
-                        <li class=""><a href="./shoppingCart.html">Shoping Cart</a></li>
-                    </ul>
-                </div>
-            </div>
+<header>
+    <span class="title"><a>Islodycze</a></span>
+    <span class="Registration"><a href="./signup_form.html">Registration</a></span>
+    <span class="Users"><a href="./users.html">Users</a></span>
+    <span class="Shopping Cart"><a href="./shoppingCart.html">Shoping Cart</a></span>
+</header>
+<div class="main-content">
+    <div class="item">
+        <p class="item-name">
+            Ciastko
+        </p>
+
+        <img src="https://royalsub.pl/wp-content/uploads/2015/09/SW-DE-COO-S-OatmRaisin_1002.png" >
+        <div>
+            <span>Cena: </span>
+            <span>2.50</span>
+            <span>zł</span>
         </div>
+        <a href="shoppingCart.html" class="add-btn">Dodaj</a>
     </div>
 </div>
 
