@@ -7,7 +7,7 @@
 
     <changeSet id="JPOS-001-001.xml" author="emilia and wojciech">
         <sql>
-            CREATE TABLE users(
+            CREATE TABLE IF NOT EXISTS users(
             user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(40) UNIQUE NOT NULL,
             user_password VARCHAR(40) NOT NULL,
@@ -17,11 +17,11 @@
             loyalty_points INT DEFAULT 0 NOT NULL
             );
 
-            CREATE TABLE categories(
+            CREATE TABLE  IF NOT EXISTS categories(
             category_name VARCHAR(40) PRIMARY KEY
             );
 
-            CREATE TABLE products(
+            CREATE TABLE  IF NOT EXISTS products(
             product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             product_name VARCHAR(125) UNIQUE NOT NULL,
             price DECIMAL NOT NULL,
@@ -33,14 +33,14 @@
             FOREIGN KEY(category_fk) REFERENCES categories(category_name) ON DELETE CASCADE
             );
 
-            CREATE TABLE product_orders(
+            CREATE TABLE  IF NOT EXISTS product_orders(
             product_order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             amount INT NOT NULL,
             product_fk BIGINT NOT NULL,
             FOREIGN KEY(product_fk) REFERENCES products(product_id) ON DELETE CASCADE
             );
 
-            CREATE TABLE orders(
+            CREATE TABLE  IF NOT EXISTS orders(
             order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
             total_cost DECIMAL NOT NULL,
             order_date TIMESTAMP NOT NULL,

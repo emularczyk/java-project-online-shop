@@ -2,7 +2,7 @@ package com.candyshop.islodycze.registration;
 
 import com.candyshop.islodycze.model.Enum.Role;
 import com.candyshop.islodycze.model.Enum.UserStatus;
-import com.candyshop.islodycze.model.User;
+import com.candyshop.islodycze.model.UserEntity;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,7 +27,7 @@ public class UserServices {
     private JavaMailSender mailSender;
 
 
-    public void register(User user, String siteURL)
+    public void register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
         String encodedPassword = passwordEncoder.encode(user.getUserPassword());
         user.setUserPassword(encodedPassword);
@@ -41,7 +41,7 @@ public class UserServices {
         sendVerificationEmail(user, siteURL);
     }
 
-    private void sendVerificationEmail(User user, String siteURL)
+    private void sendVerificationEmail(UserEntity user, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "islodycze@onet.pl";
@@ -72,7 +72,7 @@ public class UserServices {
     }
 
     public boolean verify(String verificationCode) {
-        User user = repo.findByVerificationCode(verificationCode);
+        UserEntity user = repo.findByVerificationCode(verificationCode);
 
         if (user == null || user.getVerificationStatus() == UserStatus.CONFIRMED) {
             return false;

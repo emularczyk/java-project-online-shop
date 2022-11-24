@@ -47,15 +47,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users").authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/users").hasAuthority("ADMIN")
+                .and().authorizeRequests().antMatchers("/console/**").permitAll()
+                .anyRequest().hasAnyAuthority("ADMIN", "USER")
                 .and()
                 .formLogin()
                 .usernameParameter("email")
-                .defaultSuccessUrl("/users")
+                .defaultSuccessUrl("/products")
                 .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
 

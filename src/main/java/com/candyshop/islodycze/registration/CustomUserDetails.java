@@ -3,15 +3,15 @@ package com.candyshop.islodycze.registration;
 import java.util.Collection;
 
 import com.candyshop.islodycze.model.Enum.UserStatus;
-import com.candyshop.islodycze.model.User;
+import com.candyshop.islodycze.model.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
 
-    private User user;
+    private UserEntity user;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(UserEntity user) {
         this.user = user;
     }
 
