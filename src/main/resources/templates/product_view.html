@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Registration Success</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+<div align="center">
+    <h1>Product View </h1>
+    <span>Product name: </span><span th:text="${product.productName}"></span><br/>
+    <span>Product price: </span><span th:text="${product.price}"></span><br/>
+    <span>Product amount: </span><span th:text="${product.amount}"></span><br/>
+    <span>Product category: </span>
+    <ul>
+        <li th:each="category: ${product.category}">
+            <span th:text="${category.categoryName}" >Default</span>
+        </li>
+    </ul>
+    <span>Product description: </span><span th:text="${product.description}"></span><br/>
+</div>
+
+</body>
+</html>

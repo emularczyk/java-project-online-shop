@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="JPOS-003-001.xml" author="emilia and wojciech">
+        <sql>
+            ALTER TABLE products DROP COLUMN category_fk;
+
+            ALTER TABLE orders DROP COLUMN product_order_fk;
+
+            DROP TABLE IF EXISTS categories_product CASCADE;
+
+            DROP TABLE IF EXISTS product_orders_orders CASCADE;
+
+            CREATE TABLE categories_product(
+            categories_product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            product_id BIGINT  NOT NULL,
+            category_name VARCHAR(40) NOT NULL
+            );
+
+            CREATE TABLE product_orders_orders(
+            product_orders_orders_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            orders_id BIGINT NOT NULL,
+            product_order_id BIGINT NOT NULL
+            );
+
+            INSERT INTO categories_product(product_id, category_name)
+            VALUES(1, 'czekolady'),
+            (2,'ciastka');
+
+            INSERT INTO product_orders_orders  (orders_id, product_order_id)
+            VALUES(1,1),
+            (1,2);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

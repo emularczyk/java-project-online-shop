@@ -44,6 +44,7 @@ public class Product {
     @ToString.Exclude
     private Set<Category> categoryFk = new HashSet<>();
 
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "productFk")
     private Set<ProductOrder> productOrders = new HashSet<>();
 }
