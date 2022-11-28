@@ -50,6 +50,15 @@
             product_order_fk BIGINT NOT NULL,
             FOREIGN KEY(product_order_fk) REFERENCES product_orders(product_order_id) ON DELETE CASCADE
             );
+            CREATE TABLE shopping_cart(
+            id BIGINT NOT NULL AUTO_INCREMENT,
+            product_id BIGINT NULL,
+            user_id BIGINT NULL,
+            quantity INT NULL,
+            PRIMARY KEY(id),
+            FOREIGN KEY(product_id) REFERENCES products(product_id),
+            FOREIGN KEY(user_id) REFERENCES users(user_id)
+            );
         </sql>
     </changeSet>
 
