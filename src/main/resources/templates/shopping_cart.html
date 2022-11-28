@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>iSłodycze</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/css/all.css"/>
+
+</head>
+<body>
+<div class="container text-center">
+        <h1>Shopping cart</h1>
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Photo</th>
+                <th>Film</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cartItem: ${cartItems}">
+                <td></td>
+                <td th:text="${cartItem.product.productName}">Name</td>
+<!--                add there a link to details... gl&hf with js-->
+                <td th:text="${cartItem.product.price}">Price</td>
+                <td th:text="${cartItem.product.photo}">Photo</td>
+                <td th:text="${cartItem.product.youtube}">Film</td>
+                <td th:text="${cartItem.product.description}">Description</td>
+                <td th:text="${cartItem.quantity}">Quantity</td>
+                <td class="row justify-content-center m-0">
+                    <a class="input-group-lg p-0" id="delete_item" th:href="@{/login}">
+<!--                        replace link to login site with cart item delete-->
+                        <span class="input-group-text text-danger w-50 justify-content-center">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script>
+var table = document.getElementsByTagName('table')[0],
+rows = table.getElementsByTagName('tr'),
+text = 'textContent' in document ? 'textContent' : 'innerText';
+
+for (var i = 1, len = rows.length; i < len; i++) {
+    rows[i].children[0][text] = i + '. ' + rows[i].children[0][text];
+}</script>
+
+</body>
+</html>
