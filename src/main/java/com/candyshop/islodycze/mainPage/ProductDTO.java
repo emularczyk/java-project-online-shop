@@ -19,6 +19,7 @@ class ProductDTO {
     private String productName;
     private BigDecimal price;
     private int amount;
+    private int popularity;
     private String photo;
     private String youtube;
     private String description;

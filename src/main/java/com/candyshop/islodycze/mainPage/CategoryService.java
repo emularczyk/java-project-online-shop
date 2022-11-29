@@ -17,4 +17,16 @@ public class CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    public Category saveCategory(final Category category) {
+        Category foundCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+        if (foundCategory != null) {
+            throw new CategoryAlreadyExistsException(category.getCategoryName());
+        }
+        return categoryRepository.save(category);
+    }
+    public void deleteCategoryByName(final String categoryName) {
+        Category categoryToDelete = categoryRepository.findByCategoryName(categoryName);
+        categoryRepository.delete(categoryToDelete);
+    }
 }
