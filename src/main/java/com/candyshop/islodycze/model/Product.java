@@ -33,6 +33,8 @@ public class Product {
 
     private String youtube;
 
+    private Integer popularity;
+
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)

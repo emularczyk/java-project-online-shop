@@ -62,7 +62,6 @@ public class ProductPage implements Serializable {
     }
 
     public void changeSortingDirection() {
-        System.out.println("changing");
         if (this.sortingDirection == Sort.Direction.ASC) {
             this.sortingDirection = Sort.Direction.DESC;
         } else {
