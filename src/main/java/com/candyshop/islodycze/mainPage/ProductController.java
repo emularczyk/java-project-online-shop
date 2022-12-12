@@ -3,6 +3,7 @@ package com.candyshop.islodycze.mainPage;
 import com.candyshop.islodycze.model.Category;
 import com.candyshop.islodycze.model.Product;
 import lombok.AllArgsConstructor;
+import net.bytebuddy.matcher.FilterableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -60,16 +61,16 @@ public class ProductController {
     public String saveProduct(final ProductDTO productDTO) {
         final Product product = productMapper.toEntity(productDTO);
         productService.saveProduct(product);
-        return "redirect:/searchProducts";
+        return "redirect:/";
     }
 
     @GetMapping("/deleteProduct/{id}")
     public String deleteProductById(@PathVariable final Long id) {
         productService.deleteProductById(id);
-        return "redirect:/searchProducts";
+        return "redirect:/";
     }
 
-    @GetMapping("/searchProducts")
+    @GetMapping("/")
     public String searchProducts(Model model,
                                  final ProductPage productPage,
                                  final ProductSearchCriteria productSearchCriteria,
@@ -85,7 +86,7 @@ public class ProductController {
             }
         }
 
-        if(productSearchCriteria.getSearchedPhrase()=="" && productSearchCriteria.getSearchedCategories().isEmpty() ) {
+        if(productSearchCriteria.getSearchedPhrase() =="" && productSearchCriteria != null ) {
             final Page<Product> top10Products = getTop10();
             model.addAttribute("top10List", top10Products);
         }
@@ -125,5 +126,8 @@ public class ProductController {
         model.addAttribute("product",productMapper.toDto(product));
         return "product_view";
     }
-
+    @GetMapping("/index")
+    public String about(Model model) {
+        return "index";
+    }
 }
