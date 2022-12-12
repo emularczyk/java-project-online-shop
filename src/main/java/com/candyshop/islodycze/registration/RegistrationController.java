@@ -24,7 +24,7 @@ public class RegistrationController {
 
         @GetMapping("")
         public String viewHomePage() {
-            return "index";
+            return "main_page";
         }
 
         @GetMapping("/register")
