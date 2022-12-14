@@ -37,22 +37,20 @@
             </div>
         </div>
     </nav>
-    <h1> Categories</h1>
-
-    <h3><a th:href="@{/}">Main Page</a></h3>
+    <h1> Kategorie</h1>
 
     <ul th:each="category : ${categoryList}">
         <div>
             <label th:text="${category.categoryName}"></label>
             <a method=delete th:href="@{'/deleteCategory/'+${category.categoryName}}"
                class="btn btn-primary mb-2">
-                Delete Category</a>
+                Usun Kategorie</a>
         </div>
     </ul>
-    <h1>New category</h1>
+    <h1>Nowa Kategoria</h1>
     <form th:action="@{/save_category}" method="post">
-        <input th:field="${newCategory.categoryName}" placeholder="Enter category name" class="form-control" required/>
-        <button  type="submit" class="btn btn-primary">Save category</button>
+        <input th:field="${newCategory.categoryName}" placeholder="Podaj nazwe kategorii" class="form-control" required/>
+        <button  type="submit" class="btn btn-primary">Zapisz kategorie</button>
     </form>
 </div>
 </body>

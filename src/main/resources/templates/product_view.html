@@ -3,22 +3,55 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Registration Success</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
 <div align="center">
-    <h1>Product View </h1>
-    <span>Product name: </span><span th:text="${product.productName}"></span><br/>
-    <span>Product price: </span><span th:text="${product.price}"></span><br/>
-    <span>Product amount: </span><span th:text="${product.amount}"></span><br/>
-    <span>Product category: </span>
+    <h1>Szczegoly produktu </h1>
+    <span>Nazwa: </span><span th:text="${product.productName}"></span><br/>
+    <span>Cena: </span><span th:text="${product.price}"></span><br/>
+    <span>Ilosc: </span><span th:text="${product.amount}"></span><br/>
+    <span>Kategorie: </span>
     <ul>
         <li th:each="category: ${product.category}">
-            <span th:text="${category.categoryName}" >Default</span>
+            <span th:text="${category.categoryName}">Default</span>
         </li>
     </ul>
-    <span>Product description: </span><span th:text="${product.description}"></span><br/>
+    <span>Opis: </span><span th:text=${product.description}></span><br/>
+
+    <div th:if="${product.photo != ''}">
+        <img src="default"
+             id="myPhoto"
+             width="560"
+             height="auto">
+    </div>
+    <div th:if= "${product.youtube != ''}">
+        <iframe id="myIframe"
+                referrerpolicy="origin" width="560" height="315" src="https://www.youtube.com/embed/972iprP9oJQ"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
 </div>
 
+<script>
+    function changeYoutubeURL() {
+       const myIframe = document.getElementById("myIframe");
+       var src = "https://www.youtube.com/embed/[[${product.youtube}]]";
+       myIframe.src = src
+       return;
+    }
+      function changePhotoUri() {
+       const myImg = document.getElementById("myPhoto");
+       var src = "[[${product.photo}]]";
+       myImg.src = src
+       return;
+    }
+        window.addEventListener('load',event =>{
+        changeYoutubeURL();
+        changePhotoUri();
+    });
+</script>
 </body>
 </html>

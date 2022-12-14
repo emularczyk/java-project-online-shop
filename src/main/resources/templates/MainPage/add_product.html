@@ -37,7 +37,7 @@
             </div>
         </div>
     </nav>
-    <h2> Add Product</h2>
+    <h2>Dodaj Produkt</h2>
     <hr/>
     <form th:action="@{/saveProduct}" method="post">
         <input type="hidden" th:field="${productDTO.productId}" placeholder="Enter name of product" class="form-control" required/>
@@ -53,12 +53,11 @@
                 <label th:text="${category.categoryName}"></label>
                 <input type="checkbox" th:field="${productDTO.category}"
                        th:value="${category.categoryName}">
-<!--                th:field="${productDTO.category}"-->
             </div>
         </ul>
 
 
-        <button  type="submit" class="btn btn-primary">Save product</button>
+        <button  type="submit" class="btn btn-primary">Zapisz produkt</button>
     </form>
 </div>
 </body>

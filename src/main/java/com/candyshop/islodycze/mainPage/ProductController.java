@@ -26,7 +26,7 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping("/categories_panel")
-    public String categoryPanel(Model model) {
+    public String categoryPanel(final Model model) {
         final List<Category> categoryList;
         categoryList = categoryService.getAllCategories();
         Category newCategory = new Category();
@@ -48,7 +48,7 @@ public class ProductController {
     }
 
     @GetMapping("/add_productForm")
-    public String add_productForm(Model model) {
+    public String add_productForm(final Model model) {
         final List<Category> categoryList;
         categoryList = categoryService.getAllCategories();
         final ProductDTO productDTO = new ProductDTO();
@@ -71,25 +71,20 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public String searchProducts(Model model,
+    public String searchProducts(final Model model,
                                  final ProductPage productPage,
                                  final ProductSearchCriteria productSearchCriteria,
                                  final String sortingAction) {
 
         final List<Category> categoryList;
         categoryList = categoryService.getAllCategories();
-        if(sortingAction!=null){
-            if(productPage.getSortBy().equals(sortingAction)){
-                productPage.changeSortingDirection();
-            }else{
-                productPage.setSortBy(sortingAction);
-            }
-        }
+        checkSortingOrder(sortingAction, productPage);
 
-        if(productSearchCriteria.getSearchedPhrase() =="" && productSearchCriteria != null ) {
+        if (isSearching(productSearchCriteria)) {
             final Page<Product> top10Products = getTop10();
             model.addAttribute("top10List", top10Products);
         }
+
         final Page<Product> pageProduct = productService.getProducts(productPage, productSearchCriteria);
 
         model.addAttribute("productCriteria", productSearchCriteria);
@@ -99,16 +94,30 @@ public class ProductController {
         return "MainPage/main_page";
     }
 
-    private Page<Product> getTop10(){
+    private void checkSortingOrder(final String sortBy, final ProductPage productPage) {
+        if (sortBy != null) {
+            if (productPage.getSortBy().equals(sortBy)) {
+                productPage.changeSortingDirection();
+            } else {
+                productPage.setSortBy(sortBy);
+            }
+        }
+    }
+
+    private boolean isSearching(final ProductSearchCriteria productSearchCriteria) {
+        return (productSearchCriteria.getSearchedPhrase() == "" && productSearchCriteria.getSearchedCategories().isEmpty()) ? true : false;
+    }
+
+    private Page<Product> getTop10() {
         ProductSearchCriteria top10Criteria = new ProductSearchCriteria();
         ProductPage top10Page = new ProductPage();
         top10Page.setSortBy("popularity");
-        return productService.getProducts(top10Page,top10Criteria);
+        return productService.getProducts(top10Page, top10Criteria);
     }
 
 
     @GetMapping("/editProductForm/{productId}")
-    public String updateProduct(Model model, @PathVariable final long productId) {
+    public String updateProduct(final Model model, @PathVariable final long productId) {
         final Product product = productService.getProductById(productId);
         final ProductDTO productDTO = productMapper.toDto(product);
         final List<Category> categoryList;
@@ -121,13 +130,14 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public String getProductById(Model model,@PathVariable final Long id) {
+    public String getProductById(final Model model, @PathVariable final Long id) {
         final Product product = productService.getProductById(id);
-        model.addAttribute("product",productMapper.toDto(product));
+        model.addAttribute("product", productMapper.toDto(product));
         return "product_view";
     }
+
     @GetMapping("/index")
-    public String about(Model model) {
+    public String about(final Model model) {
         return "index";
     }
 }

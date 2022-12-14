@@ -2,13 +2,14 @@ package com.candyshop.islodycze.mainPage;
 
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Accessors(chain = true)
 public class ProductSearchCriteria {
 
     private String searchedPhrase;
-    public List<String> searchedCategories;
+    public List<String> searchedCategories = new ArrayList<>();
     private int searchedPriceLimit;
     private boolean showOnlyAvailable;
 
