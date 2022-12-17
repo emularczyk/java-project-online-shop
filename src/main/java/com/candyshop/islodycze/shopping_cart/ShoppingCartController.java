@@ -26,7 +26,7 @@ public class ShoppingCartController {
         List<CartItem> cartItems = repository.findAllByUserEmail(username);
 
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("cartPrice", addCurrnecy(countCartPrice(cartItems)));
+        model.addAttribute("cartPrice", addCurrency(countCartPrice(cartItems)));
 
         return "shopping_cart";
     }
@@ -50,7 +50,7 @@ public class ShoppingCartController {
                         .sum();
     }
 
-    private String addCurrnecy(final Double price) {
+    private String addCurrency(final Double price) {
         return price.toString() + " zł";
     }
 }

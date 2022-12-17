@@ -1,4 +1,4 @@
-package com.candyshop.islodycze.model.Enum;
+package com.candyshop.islodycze.model.enums;
 
 public enum UserStatus {
     UNCONFIRMED,

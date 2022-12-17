@@ -20,5 +20,43 @@
     </changeSet>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-003-create-relations.xml"/>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-004-popularity.xml"/>
+    <changeSet id="3" author="mateusz">
+        <sql>
+            CREATE TABLE IF NOT EXISTS delivery (
+                id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                order_id BIGINT NOT NULL,
+                name VARCHAR(50) NOT NULL,
+                surname VARCHAR(50) NOT NULL,
+                phone_area VARCHAR(5),
+                phone_number VARCHAR(11),
+                country VARCHAR(50),
+                postal_code VARCHAR(8),
+                city VARCHAR(50),
+                address VARCHAR(100),
+                mode ENUM('COURIER','INPOST','PERSONAL') DEFAULT 'PERSONAL' NOT NULL,
+                delivery_cost DECIMAL NOT NULL,
+                FOREIGN KEY(order_id) REFERENCES orders(order_id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="mateusz">
+        <sql>
+            ALTER TABLE orders ALTER COLUMN order_status ENUM('CREATED','COMPLETED', 'CONFIRMED', 'PAID','SENT')
+            DEFAULT 'CREATED' NOT NULL;
+        </sql>
+        <sql>
+            UPDATE orders SET order_status = 'CREATED' WHERE order_status = 'CONFIRMED';
+        </sql>
+        <sql>
+            ALTER TABLE orders ALTER COLUMN order_status ENUM('CREATED','COMPLETED', 'PAID','SENT') DEFAULT 'CREATED'
+            NOT NULL;
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="mateusz">
+        <sql>
+            ALTER TABLE delivery ALTER COLUMN phone_number VARCHAR(11);
+            ALTER TABLE delivery ALTER COLUMN phone_area VARCHAR(5);
+        </sql>
+    </changeSet>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-005-productPriceFix.xml"/>
 </databaseChangeLog>

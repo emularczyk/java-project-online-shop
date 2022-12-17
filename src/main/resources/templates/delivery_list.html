@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>iSłodycze</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/css/all.css"/>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">iSłodycze candy-shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container text-center">
+    <h1 class="mt-5 mb-3 text-center">Dostawy</h1>
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th></th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Numer telefonu</th>
+                <th>Kod pocztowy</th>
+                <th>Państwo</th>
+                <th>Miasto</th>
+                <th>Adres</th>
+                <th>Rodzaj dostawy</th>
+                <th>Cena dostawy</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="delivery: ${deliveryList}">
+                <td></td>
+                <td th:text="${delivery.name}"></td>
+                <td th:text="${delivery.surname}"></td>
+                <td th:text="${delivery.phoneArea} + ' ' + ${delivery.phoneNumber}"></td>
+                <td th:text="${delivery.postalCode}"></td>
+                <td th:text="${delivery.country}"></td>
+                <td th:text="${delivery.city}"></td>
+                <td th:text="${delivery.address}"></td>
+                <td th:text="${delivery.mode}"></td>
+                <td th:text="${delivery.deliveryCost}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script>
+var table = document.getElementsByTagName('table')[0],
+rows = table.getElementsByTagName('tr'),
+text = 'textContent' in document ? 'textContent' : 'innerText';
+
+for (var i = 1, len = rows.length; i < len; i++) {
+    rows[i].children[0][text] = i + '. ' + rows[i].children[0][text];
+}</script>
+
+</body>
+</html>

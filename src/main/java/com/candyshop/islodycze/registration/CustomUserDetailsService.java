@@ -1,6 +1,6 @@
 package com.candyshop.islodycze.registration;
 
-import com.candyshop.islodycze.model.Enum.Role;
+import com.candyshop.islodycze.model.enums.Role;
 import com.candyshop.islodycze.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

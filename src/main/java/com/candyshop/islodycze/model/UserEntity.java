@@ -1,7 +1,7 @@
 package com.candyshop.islodycze.model;
 
-import com.candyshop.islodycze.model.Enum.Role;
-import com.candyshop.islodycze.model.Enum.UserStatus;
+import com.candyshop.islodycze.model.enums.Role;
+import com.candyshop.islodycze.model.enums.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
