@@ -58,5 +58,4 @@
             ALTER TABLE delivery ALTER COLUMN phone_area VARCHAR(5);
         </sql>
     </changeSet>
-    <include relativeToChangelogFile="true" file="changelogs/JPOS-005-productPriceFix.xml"/>
 </databaseChangeLog>
