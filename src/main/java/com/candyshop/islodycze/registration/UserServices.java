@@ -1,7 +1,7 @@
 package com.candyshop.islodycze.registration;
 
-import com.candyshop.islodycze.model.Enum.Role;
-import com.candyshop.islodycze.model.Enum.UserStatus;
+import com.candyshop.islodycze.model.enums.Role;
+import com.candyshop.islodycze.model.enums.UserStatus;
 import com.candyshop.islodycze.model.UserEntity;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;

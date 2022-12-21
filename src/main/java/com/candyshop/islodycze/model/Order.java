@@ -1,17 +1,19 @@
 package com.candyshop.islodycze.model;
 
-import com.candyshop.islodycze.model.Enum.OrderStatus;
+import com.candyshop.islodycze.model.enums.OrderStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
@@ -23,7 +25,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    private String totalCost;
+    private BigDecimal totalCost;
 
     private LocalDateTime orderDate;
 

@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
@@ -31,5 +32,6 @@ public class ProductOrder {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "productOrderFk")
+    @ToString.Exclude
     private Set<Order> orders = new HashSet<>();
 }
