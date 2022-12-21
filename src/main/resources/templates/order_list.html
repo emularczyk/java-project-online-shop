@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>iSłodycze</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/css/all.css"/>
@@ -19,60 +19,29 @@
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
             <tr>
-                <th></th>
-                <th>Nazwa użytkownika</th>
-                <th>Status</th>
-                <th>Data i godzina</th>
-                <th>Koszt produktów</th>
-                <th>Produkty</th>
-                <th>Szczegóły dostawy</th>
+                <th>Nr Zamówienia</th>
+                <th>Data zamówienia</th>
+                <th>Suma kosztu zamówienia</th>
+                <th>Potwierdzenie Zamówienia</th>
+                <th>Etykieta transportowa</th>
+                <th>Status zamówienia</th>
+                <th>Szczegóły zamówienia </th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order: ${orderList}">
-                <td></td>
-                <td th:text="${order.userIdFk.username}"></td>
-                <td th:text="${order.orderStatus}"></td>
-                <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.totalCost}"></td>
-                <td>
-                    <p th:each="product: ${order.productOrder}">
-                        <a th:text="${product.productFk.productName}"
-                              th:href="@{'/product/' + ${product.productFk.productId}}">
-                            Product name
-                        </a>
-                        <span>: </span>
-                        <span th:text="${product.amount}">
-                            Product amount
-                        </span>
-                        <span> sztuk</span>
-                    </p>
-                </td>
-                <td class="row m-0">
-                    <a class="input-group-lg p-0" id="delivery_details" type="submit"
-                       th:href="@{/delivery_details/{orderId}(orderId=${order.orderId})}">
-                        <span class="input-group-text text-primary w-50 justify-content-center mx-auto">
-                            <i class="fa fa-circle-info" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </td>
+                <td th:text="${order.orderId}">Id </td>
+                <td th:text="${order.orderDate}">Date</td>
+                <td th:text="${order.totalCost}+' zł'">Price</td>
+                <td> <a th:text="'Potwierzedenie zamówienia nr.' + ${order.orderId}"  th:href="@{'/confirmationPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
+                <td> <a th:text="'Etykieta transportowa zamówienia nr.' + ${order.orderId}"  th:href="@{'/transportLabelPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
+                <td th:text="${order.orderStatus}">Status</td>
+                <td> <a th:text="szczegóły" th:href="@{'/delivery_details/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>-->
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<script src="/webjars/jquery/jquery.min.js"></script>
-<script src="/webjars/popper.js/umd/popper.min.js"></script>
-<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-<script>
-var table = document.getElementsByTagName('table')[0],
-rows = table.getElementsByTagName('tr'),
-text = 'textContent' in document ? 'textContent' : 'innerText';
-
-for (var i = 1, len = rows.length; i < len; i++) {
-    rows[i].children[0][text] = i + '. ' + rows[i].children[0][text];
-}</script>
 
 </body>
 </html>

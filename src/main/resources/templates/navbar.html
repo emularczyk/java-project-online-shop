@@ -37,6 +37,9 @@
               <a class="nav-link" href="/shopping_cart">Koszyk</a>
             </li>
             <li class="nav-item" th:unless="${#request.userPrincipal} == null">
+              <a class="nav-link" href="/order_list">Zamówienia</a>
+            </li>
+            <li class="nav-item" th:unless="${#request.userPrincipal} == null">
               <span id="loyalty-points" class="nav-link">Punkty lojalnościowe: </span>
             </li>
             <li class="nav-item" th:unless="${#request.userPrincipal} == null">
