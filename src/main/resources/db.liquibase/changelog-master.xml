@@ -20,4 +20,5 @@
     </changeSet>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-003-create-relations.xml"/>
     <include relativeToChangelogFile="true" file="changelogs/JPOS-004-popularity.xml"/>
+    <include relativeToChangelogFile="true" file="changelogs/JPOS-005-productPriceFix.xml"/>
 </databaseChangeLog>
