@@ -125,8 +125,8 @@
             <p th:text="${cartPrice}">Sum of product's price</p>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                <form method="post" th:action="@{/process_order}" th:object="${cartItems}">
-                    <input type="text" th:value="${cartPrice}" name="cartPrice"/>
+                <form method="post" th:action="@{/process_order}">
+                    <input type="hidden" th:value="${cartPrice}" name="cartPrice"/>
                     <button type="submit" class="btn btn-primary">Formularz dostawy</button>
                 </form>
             </div>

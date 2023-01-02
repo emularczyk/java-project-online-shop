@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -49,4 +50,12 @@ public class Product {
     @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "productFk")
     private Set<ProductOrder> productOrders = new HashSet<>();
+
+    public void incrementPopularity() {
+        if (popularity != null) {
+            popularity ++;
+        } else {
+            popularity = 1;
+        }
+    }
 }

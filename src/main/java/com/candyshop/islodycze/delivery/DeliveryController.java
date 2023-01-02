@@ -37,13 +37,24 @@ public class DeliveryController {
         return "delivery_form";
     }
 
-        @GetMapping("/delivery_list")
+    @GetMapping("/delivery_list")
     public String deliveryList(final Model model) {
         List<DeliveryEntity> deliveryList = repository.findAll();
 
         model.addAttribute("deliveryList", deliveryList);
 
         return "delivery_list";
+    }
+
+    @GetMapping("/delivery_details/{orderId}")
+    public String deliveryDetails(@PathVariable("orderId") final Long orderId, final Model model) {
+        DeliveryEntity delivery = repository.findByOrderOrderId(orderId);
+
+        if (delivery != null) {
+            model.addAttribute("deliveryDetails", delivery);
+            return "delivery_details";
+        }
+        return "delivery_not_found";
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
@@ -14,4 +15,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
     void deleteByUserEmailAndProductProductId(String username, Long productId);
 
     void deleteAllByUserUserId(Long userId);
+
+    Set<CartItem> findAllByUserUserId(Long userId);
 }
