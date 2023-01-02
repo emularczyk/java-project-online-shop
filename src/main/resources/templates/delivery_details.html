@@ -39,48 +39,33 @@
 </nav>
 
 <div class="container text-center">
-    <h1 class="mt-5 mb-3 text-center">Zamówienia</h1>
+    <h1 class="mt-5 mb-3 text-center">Szczegóły dostawy</h1>
     <div>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
             <tr>
-                <th></th>
-                <th>Nazwa użytkownika</th>
-                <th>Status</th>
-                <th>Data i godzina</th>
-                <th>Koszt produktów</th>
-                <th>Produkty</th>
-                <th>Szczegóły dostawy</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Numer telefonu</th>
+                <th>Kod pocztowy</th>
+                <th>Państwo</th>
+                <th>Miasto</th>
+                <th>Adres</th>
+                <th>Rodzaj dostawy</th>
+                <th>Cena dostawy</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order: ${orderList}">
-                <td></td>
-                <td th:text="${order.userIdFk.username}"></td>
-                <td th:text="${order.orderStatus}"></td>
-                <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.totalCost}"></td>
-                <td>
-                    <p th:each="product: ${order.productOrder}">
-                        <a th:text="${product.productFk.productName}"
-                              th:href="@{'/product/' + ${product.productFk.productId}}">
-                            Product name
-                        </a>
-                        <span>: </span>
-                        <span th:text="${product.amount}">
-                            Product amount
-                        </span>
-                        <span> sztuk</span>
-                    </p>
-                </td>
-                <td class="row m-0">
-                    <a class="input-group-lg p-0" id="delivery_details" type="submit"
-                       th:href="@{/delivery_details/{orderId}(orderId=${order.orderId})}">
-                        <span class="input-group-text text-primary w-50 justify-content-center mx-auto">
-                            <i class="fa fa-circle-info" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </td>
+            <tr>
+                <td th:text="${deliveryDetails.name}"></td>
+                <td th:text="${deliveryDetails.surname}"></td>
+                <td th:text="${deliveryDetails.phoneArea} + ' ' + ${deliveryDetails.phoneNumber}"></td>
+                <td th:text="${deliveryDetails.postalCode}"></td>
+                <td th:text="${deliveryDetails.country}"></td>
+                <td th:text="${deliveryDetails.city}"></td>
+                <td th:text="${deliveryDetails.address}"></td>
+                <td th:text="${deliveryDetails.mode}"></td>
+                <td th:text="${deliveryDetails.deliveryCost}"></td>
             </tr>
             </tbody>
         </table>
@@ -90,14 +75,6 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/popper.js/umd/popper.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-<script>
-var table = document.getElementsByTagName('table')[0],
-rows = table.getElementsByTagName('tr'),
-text = 'textContent' in document ? 'textContent' : 'innerText';
-
-for (var i = 1, len = rows.length; i < len; i++) {
-    rows[i].children[0][text] = i + '. ' + rows[i].children[0][text];
-}</script>
 
 </body>
 </html>

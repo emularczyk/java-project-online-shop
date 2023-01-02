@@ -36,12 +36,7 @@ public class Order {
     @JoinColumn(name = "user_id_fk")
     private UserEntity userIdFk;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_orders_orders",
-            joinColumns = @JoinColumn(name = "orders_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_order_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Set<ProductOrder> productOrderFk;
+    private Set<ProductOrder> productOrder;
 }

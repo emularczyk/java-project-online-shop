@@ -6,8 +6,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -31,7 +29,8 @@ public class ProductOrder {
     private Product productFk;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "productOrderFk")
+    @ManyToOne
     @ToString.Exclude
-    private Set<Order> orders = new HashSet<>();
+    @JoinColumn(name = "order_id")
+    private Order orders;
 }
