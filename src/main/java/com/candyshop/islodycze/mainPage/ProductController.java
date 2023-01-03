@@ -3,7 +3,6 @@ package com.candyshop.islodycze.mainPage;
 import com.candyshop.islodycze.model.Category;
 import com.candyshop.islodycze.model.Product;
 import lombok.AllArgsConstructor;
-import net.bytebuddy.matcher.FilterableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -105,7 +104,7 @@ public class ProductController {
     }
 
     private boolean isSearching(final ProductSearchCriteria productSearchCriteria) {
-        return (productSearchCriteria.getSearchedPhrase() == "" && productSearchCriteria.getSearchedCategories().isEmpty()) ? true : false;
+        return productSearchCriteria.getSearchedCategories().isEmpty() && productSearchCriteria.getSearchedPhrase().equals("");
     }
 
     private Page<Product> getTop10() {

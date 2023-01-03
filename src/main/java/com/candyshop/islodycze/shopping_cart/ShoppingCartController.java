@@ -1,6 +1,9 @@
 package com.candyshop.islodycze.shopping_cart;
 
-import com.candyshop.islodycze.model.CartItem;
+import com.candyshop.islodycze.model.*;
+import com.candyshop.islodycze.registration.UserRepository;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,21 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class ShoppingCartController {
 
     @Autowired
-    private CartItemRepository repository;
+    private CartItemRepository cartItemRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/shopping_cart")
     public String shoppingCartList(final Model model, final Principal principalUser) {
         Object principal = ((UsernamePasswordAuthenticationToken) principalUser).getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        List<CartItem> cartItems = repository.findAllByUserEmail(username);
+        List<CartItem> cartItems = cartItemRepository.findAllByUserEmail(username);
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("cartPrice", addCurrency(countCartPrice(cartItems)));
@@ -38,9 +45,52 @@ public class ShoppingCartController {
 
         Object principal = ((UsernamePasswordAuthenticationToken) principalUser).getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        repository.deleteByUserEmailAndProductProductId(username, productId);
+        cartItemRepository.deleteByUserEmailAndProductProductId(username, productId);
 
         return "redirect:/shopping_cart";
+    }
+
+    @PostMapping("/shopping_cart/add_item")
+    public String addItemsToShoppingCart(final Integer quantity, final Long productId, final Principal principalUser) {
+
+        if(quantity == null) {
+            log.error("Quantity is null");
+            return "error";
+        }
+
+        if(productId == null) {
+            log.error("productId is null");
+            return "error";
+        }
+
+        if(principalUser == null) {
+            log.info("User is null");
+            return "redirect:/login";
+        }
+
+        Long userId = getUserId((UsernamePasswordAuthenticationToken) principalUser);
+
+        CartItem duplicatedItem =
+                cartItemRepository.findByUserUserIdAndProductProductId(userId, productId);
+
+        //Prevent duplicating of items in cart
+        if (duplicatedItem == null) {
+            cartItemRepository.save(CartItem.builder()
+                                            .product(new Product().setProductId(productId))
+                                            .user(new UserEntity().setUserId(userId))
+                                            .quantity(quantity)
+                                            .build());
+        } else {
+            //TODO replace incrementation with native query
+            cartItemRepository.save(CartItem.builder()
+                                            .id(duplicatedItem.getId())
+                                            .product(new Product().setProductId(productId))
+                                            .user(new UserEntity().setUserId(userId))
+                                            .quantity(duplicatedItem.getQuantity() + quantity)
+                                            .build());
+        }
+
+        return "redirect:/product/" + productId;
     }
 
     private Double countCartPrice(final List<CartItem> cartItems) {
@@ -52,5 +102,12 @@ public class ShoppingCartController {
 
     private String addCurrency(final Double price) {
         return price.toString() + " zł";
+    }
+
+    private Long getUserId(UsernamePasswordAuthenticationToken principalUser) {
+        Object principal = principalUser.getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByEmail(username)
+                             .getUserId();
     }
 }

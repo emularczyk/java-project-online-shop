@@ -72,6 +72,7 @@ public class OrderController {
 
         List<Long> productIds = new ArrayList<>();
         order.get().getProductOrder().forEach(product -> productIds.add(product.getProductFk().getProductId()));
+        //TODO replace incrementation with native query
         List<Product> productList = productRepository.findAllById(productIds);
         productList.forEach(Product::incrementPopularity);
         productRepository.saveAll(productList);

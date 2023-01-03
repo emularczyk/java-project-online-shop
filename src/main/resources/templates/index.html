@@ -1,44 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Welcome to CodeJava Home</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div th:replace="navbar :: navigation"></div>
+
 <div class="container text-center">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">iSlodycze candy-shop</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shopping_cart">Koszyk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register">Rejestracja</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <h1>Witamy w Islodycze</h1>
-    <h3>Jest to sklep internetowy gdzie mozna zakupic przerozne slodycze poprzez zelki poprzez nawet paluszki</h3>
+    <h1>Witamy w iSłodycze</h1>
+    <h3>Jest to sklep internetowy gdzie można zakupić przeróżne słodycze od żelków po paluszki</h3>
 
 </div>
 <footer>
