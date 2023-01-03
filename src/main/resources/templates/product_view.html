@@ -1,39 +1,110 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Registration Success</title>
+    <meta charset="UTF-8">
+    <title th:text="'iSłodycze: ' + ${product.productName}"></title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/css/all.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-<div align="center">
-    <h1>Szczegoly produktu </h1>
-    <span>Nazwa: </span><span th:text="${product.productName}"></span><br/>
-    <span>Cena: </span><span th:text="${product.price}"></span><br/>
-    <span>Ilosc: </span><span th:text="${product.amount}"></span><br/>
-    <span>Kategorie: </span>
-    <ul>
-        <li th:each="category: ${product.category}">
-            <span th:text="${category.categoryName}">Default</span>
-        </li>
-    </ul>
-    <span>Opis: </span><span th:text=${product.description}></span><br/>
 
-    <div th:if="${product.photo != ''}">
-        <img src="default"
-             id="myPhoto"
-             width="560"
-             height="auto">
-    </div>
-    <div th:if= "${product.youtube != ''}">
-        <iframe id="myIframe"
-                referrerpolicy="origin" width="560" height="315" src="https://www.youtube.com/embed/972iprP9oJQ"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+<div th:replace="navbar :: navigation"></div>
+
+<div align="center" class="bg-light">
+    <h1 class="pt-4 mb-1">Szczegóły produktu </h1>
+
+    <div class="row">
+        <ul class="list-group list-group-horizontal list-group-flush bg-light p-3 mx-5">
+            <li class="list-group-item bg-light" style="border: none">Kategoria: </li>
+            <li class="list-group-item bg-light" style="border: none" th:each="category: ${product.category}">
+                <span th:text="${category.categoryName}">Default</span>
+            </li>
+        </ul>
+        <div class="col-lg-6 mx-auto">
+<!--            Main card-->
+            <div class="card p-4 mb-3">
+                <h1 th:text="${product.productName}"></h1><br/>
+
+                <div class="card-header bg-white">
+                    <div class="tab-content">
+                        <!-- credit card info-->
+                        <div id="photo" class="tab-pane fade show active pt-3" role="tabpanel"
+                             aria-labelledby="photo-tab">
+                            <div th:unless="${#strings.isEmpty(product.photo)}">
+                                <img src="default"
+                                     id="myPhoto"
+                                     width="560"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <div id="yt" class="tab-pane fade pt-3" role="tabpanel"
+                             aria-labelledby="yt-tab">
+                            <div th:unless= "${#strings.isEmpty(product.youtube)}">
+                                <iframe id="myIframe"
+                                        referrerpolicy="origin" width="560" height="315" src="https://www.youtube.com/embed/972iprP9oJQ"
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                        <li class="nav-item p-1" th:unless= "${#strings.isEmpty(product.photo)}">
+                            <a data-bs-toggle="pill" href="#photo" class="nav-link active"
+                               aria-controls="photo" id="photo-tab">
+                                <i class="fas fa-image mr-2"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item p-1" th:unless= "${#strings.isEmpty(product.youtube)}">
+                            <a data-bs-toggle="pill" href="#yt" class="nav-link " aria-controls="yt"
+                               id="yt-tab">
+                                <i class="fas fa-clapperboard mr-2"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+<!--            Description-->
+            <div class="card mb-3 text-start">
+                <h3 class="p-3">Opis</h3>
+                <span class="p-3" th:text=${product.description}></span><br/>
+            </div>
+        </div>
+<!--        Price-->
+        <div class="col-lg-4 mx-auto">
+            <form class="card text-start p-3" method="post" th:action="@{/shopping_cart/add_item}">
+                <h5 th:text="${product.price} + ' zł'"></h5>
+                <hr class="col-3 col-md-2 mb-1">
+                <span>Liczba sztuk</span>
+                <div class="input-group my-1 w-100">
+                    <a class="input-group-text" id="decrement-quantity">
+                        <span>
+                            <i class="fas fa-minus"></i>
+                        </span>
+                    </a>
+                    <input type="text" class="form-control" id="quantity" name="quantity" value="1">
+                    <input type="hidden" class="form-control" th:value="${product.productId}" name="productId">
+                    <a class="input-group-text" id="increment-quantity">
+                        <span>
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                    <span class="w-50 mx-2 pt-1" th:text="' z ' + ${product.amount} + ' sztuk'"></span>
+                </div>
+                <button class="btn btn-success my-1" type="submit">
+                    Dodaj do koszyka
+                </button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
     function changeYoutubeURL() {
@@ -53,5 +124,41 @@
         changePhotoUri();
     });
 </script>
+<script>
+  $('#quantity').on('input', function() {
+  var c = this.selectionStart,
+      r = /[^0-9]/gi,
+      v = $(this).val();
+  console.log(v);
+  console.log(c);
+  if(r.test(v)) {
+    $(this).val(v.replace(r, ''));
+    c--;
+  } else if (v > [[${product.amount}]]) {
+    v = v.substring(0, c - 1) + v.substring(c);
+    $(this).val(v);
+    c--;
+  }
+  this.setSelectionRange(c, c);
+});
+</script>
+
+<script>
+  $("#increment-quantity").click(function(){
+  var inputField = document.getElementById("quantity");
+  if (inputField.value < [[${product.amount}]]) {
+    inputField.setAttribute('value', inputField.value ++);
+  }
+});
+</script>
+<script>
+  $("#decrement-quantity").click(function(){
+  var inputField = document.getElementById("quantity");
+  if (inputField.value > 1) {
+    inputField.setAttribute('value', inputField.value --);
+  }
+});
+</script>
+
 </body>
 </html>

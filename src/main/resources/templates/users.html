@@ -8,6 +8,9 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div th:replace="navbar :: navigation"></div>
+
 <div class="container text-center">
     <div>
         <form th:action="@{/logout}" method="post">
