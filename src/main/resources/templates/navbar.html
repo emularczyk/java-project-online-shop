@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <title th:text="'iSłodycze: ' + ${product.productName}"></title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
   </head>
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" th:fragment="navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" th:fragment="navigation" th:with="email=${#request.userPrincipal.principal.username}">
       <div class="container">
         <a class="navbar-brand" href="/">iSlodycze candy-shop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -33,7 +37,7 @@
               <a class="nav-link" href="/shopping_cart">Koszyk</a>
             </li>
             <li class="nav-item" th:unless="${#request.userPrincipal} == null">
-              <span class="nav-link">Punkty lojalnościowe: </span>
+              <span id="loyalty-points" class="nav-link">Punkty lojalnościowe: </span>
             </li>
             <li class="nav-item" th:unless="${#request.userPrincipal} == null">
               <a class="nav-link" href="/logout">Wyloguj</a>
@@ -47,6 +51,22 @@
           </ul>
         </div>
       </div>
+      <script src="/webjars/jquery/jquery.min.js"></script>
+      <script src="/webjars/popper.js/umd/popper.min.js"></script>
+      <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+      <script>
+      const username = `[[${email}]]`;
+        const data = fetch(`http://localhost:8080/products/${username}`)
+          .then((response) => response.json())
+          .then((user) => {
+          console.log(user);
+            const points = document.getElementById("loyalty-points");
+            const htmlElement = document.createElement("span");
+            htmlElement.innerHTML = user.loyaltyPoints;
+            points.appendChild(htmlElement);
+          });
+    </script>
     </nav>
-  </body>
+    </body>
 </html>
