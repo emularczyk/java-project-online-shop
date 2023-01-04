@@ -5,14 +5,13 @@ import com.candyshop.islodycze.model.*;
 import com.candyshop.islodycze.model.enums.OrderStatus;
 import com.candyshop.islodycze.registration.UserRepository;
 import com.candyshop.islodycze.shopping_cart.CartItemRepository;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,7 +20,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Log4j2
+@Slf4j
 @Controller
 public class OrderController {
 
@@ -75,6 +74,7 @@ public class OrderController {
         //TODO replace incrementation with native query
         List<Product> productList = productRepository.findAllById(productIds);
         productList.forEach(Product::incrementPopularity);
+        //TODO add decrementation of amount of products and repair product - order relations
         productRepository.saveAll(productList);
         if (productList.isEmpty()) {
             log.info("No products to increment popularity.");
