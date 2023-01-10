@@ -40,13 +40,13 @@
     <h2>Dodaj Produkt</h2>
     <hr/>
     <form th:action="@{/saveProduct}" method="post">
-        <input type="hidden" th:field="${productDTO.productId}" placeholder="Enter name of product" class="form-control" required/>
-        <input type="text" th:field="${productDTO.productName}" placeholder="Enter name of product" class="form-control" required />
-        <input type="number" th:field="*{productDTO.price}" placeholder="Enter price of product" class="form-control" required/>
-        <input type="number" th:field="${productDTO.amount}" placeholder="Enter amount of product" class="form-control" required/>
-        <!--        TODO: images-->
-        <!--        TODO: youtube-->
-        <input type="text" th:field="*{productDTO.description}" placeholder="Enter description of product" class="form-control" />
+        <input type="hidden" th:field="${productDTO.productId}"class="form-control" required/>
+        <input type="text" th:field="${productDTO.productName}" placeholder="Podaj nazwe produktu" class="form-control" required />
+        <input th:value="${#numbers.formatCurrency(productDTO.price)}" th:field="${productDTO.price}" placeholder="Podaj cene produktu" class="form-control" required/>
+        <input type="number" th:field="${productDTO.amount}" placeholder="Podaj ilosc produktu" class="form-control" required/>
+        <input type="text" th:field="*{productDTO.photo}" placeholder="Podaj link do zdjecia produktu" class="form-control" />
+        <input type="text" th:field="*{productDTO.youtube}" placeholder="Podaj unikatowe ID youtube dla produktu" class="form-control" />
+        <input type="text" th:field="*{productDTO.description}" placeholder="Podaj opis produktu" class="form-control" />
 
         <ul th:each="category : ${categoryList}">
             <div>
