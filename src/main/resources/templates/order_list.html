@@ -19,10 +19,10 @@
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
             <tr>
-                <th>Nr Zamówienia</th>
+                <th>Nr zamówienia</th>
                 <th>Data zamówienia</th>
                 <th>Suma kosztu zamówienia</th>
-                <th>Potwierdzenie Zamówienia</th>
+                <th>Potwierdzenie zamówienia</th>
                 <th>Etykieta transportowa</th>
                 <th>Status zamówienia</th>
                 <th>Szczegóły zamówienia </th>
@@ -33,8 +33,8 @@
                 <td th:text="${order.orderId}">Id </td>
                 <td th:text="${order.orderDate}">Date</td>
                 <td th:text="${order.totalCost}+' zł'">Price</td>
-                <td> <a th:text="'Potwierzedenie zamówienia nr.' + ${order.orderId}"  th:href="@{'/confirmationPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
-                <td> <a th:text="'Etykieta transportowa zamówienia nr.' + ${order.orderId}"  th:href="@{'/transportLabelPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
+                <td> <a th:text="'Potwierdzenie zamówienia nr ' + ${order.orderId}"  th:href="@{'/confirmationPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
+                <td> <a th:text="'Etykieta transportowa zamówienia nr ' + ${order.orderId}"  th:href="@{'/transportLabelPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
                 <td th:text="${order.orderStatus}">Status</td>
                 <td> <a th:text="szczegóły" th:href="@{'/delivery_details/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>-->
             </tr>

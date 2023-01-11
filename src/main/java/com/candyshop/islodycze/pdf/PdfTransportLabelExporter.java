@@ -2,15 +2,12 @@ package com.candyshop.islodycze.pdf;
 
 import com.candyshop.islodycze.delivery.DeliveryEntity;
 import com.candyshop.islodycze.model.Order;
-import com.candyshop.islodycze.model.ProductOrder;
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 
 public class PdfTransportLabelExporter {
 
@@ -19,46 +16,52 @@ public class PdfTransportLabelExporter {
 
     public PdfTransportLabelExporter(Order order, DeliveryEntity delivery) {
         this.order = order;
-        this.delivery=delivery;
+        this.delivery = delivery;
     }
 
     public void export(HttpServletResponse response) throws DocumentException, IOException {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
-        
-        fromDetails(document);
-        toDetails(document);
+
+        BaseFont arial = BaseFont.createFont("C:/Windows/Fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        Font font = new Font(arial, 12);
+
+        fromDetails(document, font);
+        toDetails(document, font);
 
         document.close();
     }
-    private void newPdfParagraph(Document document, String text){
-        newPdfParagraph(document, text,Paragraph.ALIGN_LEFT,12);
+
+    private void newPdfParagraph(Document document, Font font, String text) {
+        newPdfParagraph(document, font, text, Paragraph.ALIGN_LEFT, 12);
     }
-    private void newPdfParagraph(Document document, String text, int alignment,float size){
-        Font font = FontFactory.getFont(FontFactory.COURIER,size);
-        System.out.println("font: "+font.getSize());
-        Paragraph paragraph = new Paragraph(text);
-        paragraph.setFont(font);
+
+    private void newPdfParagraph(Document document, Font font, String text, int alignment, float size) {
+        Paragraph paragraph = new Paragraph(text, font);
+        paragraph.getFont().setSize(size);
         paragraph.setAlignment(alignment);
         document.add(paragraph);
     }
 
-    private void fromDetails(Document document){
-        newPdfParagraph(document,"Dane nadawcy: ",Paragraph.ALIGN_LEFT,32);
-        newPdfParagraph(document,"Islodycze");
-        newPdfParagraph(document,"ul. Kupiecka");
-        newPdfParagraph(document,"12-345");
-        newPdfParagraph(document,"Zielona Gora:");
-        newPdfParagraph(document,"Polska");
+    private void fromDetails(Document document, Font font) {
+        newPdfParagraph(document, font, "Dane nadawcy: ", Paragraph.ALIGN_LEFT, 14);
+        newPdfParagraph(document, font, "\n");
+        newPdfParagraph(document, font, "iSłodycze");
+        newPdfParagraph(document, font, "ul. Kupiecka");
+        newPdfParagraph(document, font, "12-345");
+        newPdfParagraph(document, font, "Zielona Góra:");
+        newPdfParagraph(document, font, "Polska");
+        newPdfParagraph(document, font, "\n");
     }
 
-    private void toDetails(Document document){
-        newPdfParagraph(document,"Dane odbiorcy: ",Paragraph.ALIGN_LEFT,32);
-        newPdfParagraph(document,delivery.getName()+" "+delivery.getSurname());
-        newPdfParagraph(document,delivery.getAddress());
-        newPdfParagraph(document,delivery.getPostalCode());
-        newPdfParagraph(document,delivery.getCity());
-        newPdfParagraph(document,delivery.getCountry());
+    private void toDetails(Document document, Font font) {
+        newPdfParagraph(document, font, "Dane odbiorcy: ", Paragraph.ALIGN_LEFT, 14);
+        newPdfParagraph(document, font, "\n");
+        newPdfParagraph(document, font, delivery.getName() + " " + delivery.getSurname());
+        newPdfParagraph(document, font, delivery.getAddress());
+        newPdfParagraph(document, font, delivery.getPostalCode());
+        newPdfParagraph(document, font, delivery.getCity());
+        newPdfParagraph(document, font, delivery.getCountry());
     }
 }

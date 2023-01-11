@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Slf4j
 @Controller
@@ -33,30 +30,30 @@ public class GetPdfController {
     }
 
     @GetMapping("/confirmationPdfExport/{orderId}")
-    public void confirmationExportToPDF(HttpServletResponse response,@PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
+    public void confirmationExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Potwierdzenie_zamówienia_nr_"+ orderId +".pdf";
+        String headerValue = "attachment; filename=Potwierdzenie_zamówienia_nr_" + orderId + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-        Order order=orderRepository.getReferenceById(orderId);
-        DeliveryEntity delivery =deliveryRepository.findByOrderOrderId(orderId);
-        PdfConfirmationExporter exporter = new PdfConfirmationExporter(order,delivery);
+        Order order = orderRepository.getReferenceById(orderId);
+        DeliveryEntity delivery = deliveryRepository.findByOrderOrderId(orderId);
+        PdfConfirmationExporter exporter = new PdfConfirmationExporter(order, delivery);
         exporter.export(response);
     }
 
     @GetMapping("/transportLabelPdfExport/{orderId}")
-    public void transportExportToPDF(HttpServletResponse response,@PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
+    public void transportExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Etykieta_transportowa_zamówienia_nr_"+ orderId +".pdf";
+        String headerValue = "attachment; filename=Etykieta_transportowa_zamówienia_nr_" + orderId + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-        Order order=orderRepository.getReferenceById(orderId);
-        DeliveryEntity delivery =deliveryRepository.findByOrderOrderId(orderId);
-        PdfTransportLabelExporter exporter = new PdfTransportLabelExporter(order,delivery);
+        Order order = orderRepository.getReferenceById(orderId);
+        DeliveryEntity delivery = deliveryRepository.findByOrderOrderId(orderId);
+        PdfTransportLabelExporter exporter = new PdfTransportLabelExporter(order, delivery);
         exporter.export(response);
     }
 }
