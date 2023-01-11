@@ -51,11 +51,4 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "productFk")
     private Set<ProductOrder> productOrders = new HashSet<>();
 
-    public void incrementPopularity() {
-        if (popularity != null) {
-            popularity ++;
-        } else {
-            popularity = 1;
-        }
-    }
 }

@@ -11,7 +11,8 @@
   </head>
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" th:fragment="navigation" th:with="email=${#request.userPrincipal.principal.username}">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" th:fragment="navigation"
+         th:with="email=${#request.userPrincipal} != null ? ${#request.userPrincipal.principal.username} : null">
       <div class="container">
         <a class="navbar-brand" href="/">iSlodycze candy-shop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"

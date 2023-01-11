@@ -1,5 +1,6 @@
 package com.candyshop.islodycze.order;
 
+import com.candyshop.islodycze.exceptions.ApplicationException;
 import com.candyshop.islodycze.mainPage.ProductRepository;
 import com.candyshop.islodycze.model.*;
 import com.candyshop.islodycze.model.enums.OrderStatus;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +31,9 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
     private CartItemRepository cartItemRepository;
     @Autowired
-    private ProductOrderRepository productOrderRepository;
+    private OrderService orderService;
 
     @GetMapping("/order_list")
     public String orderList(final Model model) {
@@ -62,22 +62,15 @@ public class OrderController {
         return "redirect:/delivery_form/" + orderId;
     }
 
+    @Transactional
     @PostMapping("/process_payment/{orderId}")
     public String processDelivery(@PathVariable("orderId") final Long orderId) {
 
-        Optional<Order> order = orderRepository.findById(orderId);
-        orderRepository.save(order.get().setOrderId(orderId)
-                  .setOrderStatus(OrderStatus.PAID));
-
-        List<Long> productIds = new ArrayList<>();
-        order.get().getProductOrder().forEach(product -> productIds.add(product.getProductFk().getProductId()));
-        //TODO replace incrementation with native query
-        List<Product> productList = productRepository.findAllById(productIds);
-        productList.forEach(Product::incrementPopularity);
-        //TODO add decrementation of amount of products and repair product - order relations
-        productRepository.saveAll(productList);
-        if (productList.isEmpty()) {
-            log.info("No products to increment popularity.");
+        try {
+            orderService.processDelivery(orderId);
+        } catch (ApplicationException e) {
+            log.error(e.getMessage());
+            return "error";
         }
 
         return "order_success";

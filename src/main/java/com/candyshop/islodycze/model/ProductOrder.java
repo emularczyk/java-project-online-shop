@@ -1,5 +1,6 @@
 package com.candyshop.islodycze.model;
 
+import com.candyshop.islodycze.exceptions.NotEnoughProducts;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -18,6 +19,7 @@ import javax.persistence.*;
 @ToString
 @DynamicInsert
 public class ProductOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productOrderId;
@@ -33,4 +35,13 @@ public class ProductOrder {
     @ToString.Exclude
     @JoinColumn(name = "order_id")
     private Order orders;
+
+    public void decreaseProductAmount() {
+        if (productFk.getAmount() >= amount) {
+            productFk.setAmount(productFk.getAmount() - amount);
+        }
+        else {
+            throw new NotEnoughProducts("Not enough products");
+        }
+    }
 }

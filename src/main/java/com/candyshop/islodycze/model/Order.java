@@ -36,7 +36,7 @@ public class Order {
     @JoinColumn(name = "user_id_fk")
     private UserEntity userIdFk;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<ProductOrder> productOrder;
 }
