@@ -21,6 +21,7 @@ import java.util.Set;
 @ToString
 @DynamicInsert
 public class UserEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

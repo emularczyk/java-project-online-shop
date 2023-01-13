@@ -1,5 +1,6 @@
 package com.candyshop.islodycze.model;
 
+import com.candyshop.islodycze.exceptions.NotEnoughLoyaltyPointsException;
 import com.candyshop.islodycze.model.enums.OrderStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -32,6 +33,8 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private boolean isDiscount;
+
     @ManyToOne
     @JoinColumn(name = "user_id_fk")
     private UserEntity userIdFk;
@@ -39,4 +42,16 @@ public class Order {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<ProductOrder> productOrder;
+
+    public void addLoyaltyPoints() {
+        userIdFk.setLoyaltyPoints(userIdFk.getLoyaltyPoints() + (int) totalCost.doubleValue() / 10);
+    }
+
+    public void removeLoyaltyPoints(final int loyaltyPoints) {
+        if (userIdFk.getLoyaltyPoints() >= 10) {
+            userIdFk.setLoyaltyPoints(userIdFk.getLoyaltyPoints() - loyaltyPoints);
+        } else {
+            throw new NotEnoughLoyaltyPointsException("You have to have at least 10 loyalty points.");
+        }
+    }
 }

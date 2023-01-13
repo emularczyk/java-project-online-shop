@@ -51,13 +51,29 @@
         </table>
     </div>
 </div>
-<div class="col-lg-8 mt-5 container">
-    <hr class="col-8 col-md-2 mb-4">
-    <p>Podsumowanie: </p>
-    <p th:text="${cartPrice}">Sum of product's price</p>
-    <button type="button" class="btn btn-primary btn-md px-4 mt-2 " data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Kupuję!
-    </button>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 mt-5">
+            <hr class="col-8 col-md-2 mb-4">
+            <p>Podsumowanie: </p>
+            <p th:text="${cartPrice}">Sum of product's price</p>
+            <button type="button" class="btn btn-primary btn-md px-4 mt-2 " data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" id="enableModalButton">
+                Kupuję!
+            </button>
+        </div>
+        <div class="col-lg-3 mt-5">
+            <div class="col-8 col-md-2 mb-4"></div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="isDiscount">
+                <label class="form-check-label" for="isDiscount">
+                    Użyj 10 punktów lojalnościowych aby otrzymać zniżkę!
+                    <p id="discount">Zapłacisz tylko: <span th:text="${cartPriceWithDiscount}"></span></p>
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -94,11 +110,12 @@
             </div>
             <hr class="col-8 col-md-2 mb-4">
             <p>Podsumowanie: </p>
-            <p th:text="${cartPrice}">Sum of product's price</p>
+            <p th:text="${cartPrice}" id="finalPrice">Sum of product's price</p>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
                 <form method="post" th:action="@{/process_order}">
-                    <input type="hidden" th:value="${cartPrice}" name="cartPrice"/>
+                    <input type="hidden" th:value="${cartPrice}" name="cartPrice" id="finalCartPrice"/>
+                    <input type="hidden" id="isDiscountModal" name="isDiscount"/>
                     <button type="submit" class="btn btn-primary">Formularz dostawy</button>
                 </form>
             </div>
@@ -117,6 +134,27 @@ text = 'textContent' in document ? 'textContent' : 'innerText';
 for (var i = 1, len = rows.length; i < len; i++) {
     rows[i].children[0][text] = i + '. ' + rows[i].children[0][text];
 }</script>
+<script>
+$("#enableModalButton").click(function(){
+    var isDiscount = document.getElementById("isDiscount").checked,
+    discountFieldModal = document.getElementById("isDiscountModal");
+    var finalPrice = document.getElementById("finalPrice");
+    var finalCartPrice = document.getElementById("finalCartPrice");
+    discountFieldModal.setAttribute('value', isDiscount);
+    if (isDiscount == true) {
+        finalPrice.innerHTML = `[[${cartPriceWithDiscount}]]`;
+    }
+});
+</script>
+<script>
+  fetch(`http://localhost:8080/products/${username}`)
+      .then((response) => response.json())
+      .then((user) => {
+        if (user.loyaltyPoints < 10) {
+            var isDiscountCheckbox = document.getElementById("isDiscount").setAttribute("disabled", true);
+        }
+  });
+</script>
 
 </body>
 </html>

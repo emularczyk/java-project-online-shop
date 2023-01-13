@@ -1,8 +1,8 @@
 package com.candyshop.islodycze.shopping_cart;
 
+import com.candyshop.islodycze.loyalty_points.LoyaltyPointsService;
 import com.candyshop.islodycze.model.*;
 import com.candyshop.islodycze.registration.UserRepository;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class ShoppingCartController {
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("cartPrice", addCurrency(countCartPrice(cartItems)));
+        model.addAttribute("cartPriceWithDiscount", addCurrency(getPriceWithDiscount(cartItems)));
 
         return "shopping_cart";
     }
@@ -81,7 +83,6 @@ public class ShoppingCartController {
                                             .quantity(quantity)
                                             .build());
         } else {
-            //TODO replace incrementation with native query
             cartItemRepository.save(CartItem.builder()
                                             .id(duplicatedItem.getId())
                                             .product(new Product().setProductId(productId))
@@ -91,6 +92,12 @@ public class ShoppingCartController {
         }
 
         return "redirect:/product/" + productId;
+    }
+
+    private Double getPriceWithDiscount(List<CartItem> cartItems) {
+        return LoyaltyPointsService.resolveDiscount(countCartPrice(cartItems))
+                                   .setScale(2, RoundingMode.HALF_UP)
+                                   .doubleValue();
     }
 
     private Double countCartPrice(final List<CartItem> cartItems) {
