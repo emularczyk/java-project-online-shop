@@ -58,4 +58,9 @@
             ALTER TABLE delivery ALTER COLUMN phone_area VARCHAR(5);
         </sql>
     </changeSet>
+    <changeSet id="6" author="mateusz">
+        <sql>
+            ALTER TABLE orders ADD is_discount BOOLEAN DEFAULT FALSE;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

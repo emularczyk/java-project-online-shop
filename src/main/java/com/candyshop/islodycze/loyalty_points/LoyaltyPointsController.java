@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoyaltyPointsController {
 
-        @Autowired
-        private UserRepository userRepo;
+    @Autowired
+    private UserRepository userRepo;
 
-        @GetMapping("/products/{username}")
-        public UserEntity viewHomePage(@PathVariable("username") String username) {
-               log.info(username);
-            UserEntity userEntity = userRepo.findByEmail(username);
-            return new UserEntity().setLoyaltyPoints(userEntity.getLoyaltyPoints());
-        }
+    @GetMapping("/products/{username}")
+    public UserEntity getUserLoyaltyPoints(@PathVariable("username") String username) {
+        UserEntity userEntity = userRepo.findByEmail(username);
+        return new UserEntity().setLoyaltyPoints(userEntity.getLoyaltyPoints());
+    }
 
 }
