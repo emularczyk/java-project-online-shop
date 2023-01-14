@@ -63,4 +63,5 @@
             ALTER TABLE orders ADD is_discount BOOLEAN DEFAULT FALSE;
         </sql>
     </changeSet>
+    <include relativeToChangelogFile="true" file="changelogs/JPOS-006-orderTotalPriceFix.xml"/>
 </databaseChangeLog>

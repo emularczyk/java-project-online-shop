@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>iSłodycze</title>
+    <title>Lista Zamowień</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -19,30 +19,33 @@
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
             <tr>
-                <th>Nr Zamówienia</th>
+                <th>Numer Zamówienia</th>
                 <th>Data zamówienia</th>
-                <th>Suma kosztu zamówienia</th>
-                <th>Potwierdzenie Zamówienia</th>
+                <th>Suma kosztów zamówienia</th>
+                <th>Potwierdzenie zamówienia</th>
                 <th>Etykieta transportowa</th>
                 <th>Status zamówienia</th>
-                <th>Szczegóły zamówienia </th>
+                <th>Szczegóły zamówienia</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order: ${orderList}">
-                <td th:text="${order.orderId}">Id </td>
-<!--                <td> <image th:src="@{'/barCode/'+${order.orderId}}"/></td>-->
-                <td th:text="${order.orderDate}">Date</td>
+                <td th:text="${order.orderId}">Id</td>
+                <td th:text="${order.orderDate}" id="dateData" >Date</td>
                 <td th:text="${order.totalCost}+' zł'">Price</td>
-                <td> <a th:text="'Potwierzedenie zamówienia nr.' + ${order.orderId}"  th:href="@{'/confirmationPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
-                <td> <a th:text="'Etykieta transportowa zamówienia nr.' + ${order.orderId}"  th:href="@{'/transportLabelPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>
+                <td><a th:text="'Potwierzedenie zamówienia nr.' + ${order.orderId}"
+                       th:href="@{'/confirmationPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/>
+                </td>
+                <td><a th:text="'Etykieta transportowa zamówienia nr.' + ${order.orderId}"
+                       th:href="@{'/transportLabelPdfExport/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/>
+                </td>
                 <td th:text="${order.orderStatus}">Status</td>
-                <td> <a th:text="szczegóły" th:href="@{'/delivery_details/'+ ${order.orderId}}" class="btn btn-primary btn-sm mb-3"/></td>-->
+                <td><a th:text="szczegóły" th:href="@{'/delivery_details/'+ ${order.orderId}}"
+                       class="btn btn-primary btn-sm mb-3"/></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
 </body>
 </html>

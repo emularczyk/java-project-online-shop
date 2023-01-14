@@ -33,39 +33,38 @@ public class GetPdfController {
     }
 
     @GetMapping("/confirmationPdfExport/{orderId}")
-    public void confirmationExportToPDF(HttpServletResponse response,@PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
+    public void confirmationExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Potwierdzenie_zamówienia_nr_"+ orderId +".pdf";
+        String headerValue = "attachment; filename=Potwierdzenie_zamówienia_nr_" + orderId + ".pdf";
         response.setHeader(headerKey, headerValue);
-
-        Order order=orderRepository.getReferenceById(orderId);
-        DeliveryEntity delivery =deliveryRepository.findByOrderOrderId(orderId);
+        Order order = orderRepository.getReferenceById(orderId);
+        DeliveryEntity delivery = deliveryRepository.findByOrderOrderId(orderId);
         PdfConfirmationExporter exporter = new PdfConfirmationExporter(order, delivery);
         exporter.export(response);
     }
 
     @GetMapping("/transportLabelPdfExport/{orderId}")
-    public void transportExportToPDF(HttpServletResponse response,@PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
+    public void transportExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Etykieta_transportowa_zamówienia_nr_"+ orderId +".pdf";
+        String headerValue = "attachment; filename=Etykieta_transportowa_zamówienia_nr_" + orderId + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-        Order order=orderRepository.getReferenceById(orderId);
-        DeliveryEntity delivery =deliveryRepository.findByOrderOrderId(orderId);
+        Order order = orderRepository.getReferenceById(orderId);
+        DeliveryEntity delivery = deliveryRepository.findByOrderOrderId(orderId);
         PdfTransportLabelExporter exporter = new PdfTransportLabelExporter(order, delivery);
         exporter.export(response);
     }
 
-    @RequestMapping(value = "/barCode/{id}",method = RequestMethod.GET)
-    public void barcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception{
+    @RequestMapping(value = "/barCode/{id}", method = RequestMethod.GET)
+    public void barcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
 
         response.setContentType("image/png");
         OutputStream outputStream = response.getOutputStream();
-        outputStream.write(BarCodeImage.getBarCodeImage(id,200,50));
+        outputStream.write(BarCodeImage.getBarCodeImage(id, 200, 50));
         outputStream.flush();
         outputStream.close();
     }

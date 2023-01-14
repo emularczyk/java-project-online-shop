@@ -2,14 +2,13 @@ package com.candyshop.islodycze.pdf;
 
 import com.candyshop.islodycze.delivery.DeliveryEntity;
 import com.candyshop.islodycze.model.Order;
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.lowagie.text.DocumentException;
 
@@ -23,13 +22,16 @@ public class PdfTransportLabelExporter {
 
     public PdfTransportLabelExporter(Order order, DeliveryEntity delivery) {
         this.order = order;
-        this.delivery=delivery;
+        this.delivery = delivery;
     }
 
     public void export(HttpServletResponse response) throws DocumentException, IOException {
-        PdfDocument pdfDoc = new PdfDocument(new com.itextpdf.kernel.pdf.PdfWriter(response.getOutputStream()));
-        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDoc);
-        
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(response.getOutputStream()));
+        Document document = new Document(pdfDoc);
+
+        PdfFont font = PdfFontFactory.createFont("C:/Windows/Fonts/arial.ttf");
+        document.setFont(font);
+
         fromDetails(document);
         toDetails(document);
 
@@ -38,42 +40,30 @@ public class PdfTransportLabelExporter {
         document.close();
     }
 
-    private void newPdfParagraph(Document document, String text) {
-        newPdfParagraph(document, text, TextAlignment.LEFT, 12);
+    private void fromDetails(Document document) {
+        PdfService.newPdfParagraph(document, "Dane nadawcy: ", TextAlignment.LEFT, 14);
+        PdfService.newPdfParagraph(document, "\n");
+        PdfService.newPdfParagraph(document, "iSłodycze");
+        PdfService.newPdfParagraph(document, "ul. Kupiecka");
+        PdfService.newPdfParagraph(document, "12-345");
+        PdfService.newPdfParagraph(document, "Zielona Góra:");
+        PdfService.newPdfParagraph(document, "Polska");
+        PdfService.newPdfParagraph(document, "\n");
     }
 
-    private void newPdfParagraph(Document document, String text, TextAlignment alignment, float size) {
-        Paragraph paragraph = new Paragraph(text);
-        try {
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.COURIER);
-            paragraph.setFont(font);
-        } catch (IOException e) {
-        }
-        paragraph.setTextAlignment(TextAlignment.LEFT);
-        document.add(paragraph);
-    }
-
-    private void fromDetails(Document document){
-        newPdfParagraph(document,"Dane nadawcy: ", TextAlignment.LEFT,32);
-        newPdfParagraph(document,"Islodycze");
-        newPdfParagraph(document,"ul. Kupiecka");
-        newPdfParagraph(document,"12-345");
-        newPdfParagraph(document,"Zielona Gora:");
-        newPdfParagraph(document,"Polska");
-    }
-
-    private void toDetails(Document document){
-        newPdfParagraph(document,"Dane odbiorcy: ",TextAlignment.LEFT,32);
-        newPdfParagraph(document,delivery.getName()+" "+delivery.getSurname());
-        newPdfParagraph(document,delivery.getAddress());
-        newPdfParagraph(document,delivery.getPostalCode());
-        newPdfParagraph(document,delivery.getCity());
-        newPdfParagraph(document,delivery.getCountry());
+    private void toDetails(Document document) {
+        PdfService.newPdfParagraph(document, "Dane odbiorcy: ", TextAlignment.LEFT, 14);
+        PdfService.newPdfParagraph(document, "\n");
+        PdfService.newPdfParagraph(document, delivery.getName() + " " + delivery.getSurname());
+        PdfService.newPdfParagraph(document, delivery.getAddress());
+        PdfService.newPdfParagraph(document, delivery.getPostalCode());
+        PdfService.newPdfParagraph(document, delivery.getCity());
+        PdfService.newPdfParagraph(document, delivery.getCountry());
     }
 
     private void addBarCodeImage(Document document) {
-        newPdfParagraph(document,"");
-        newPdfParagraph(document,"Kod kreskowy do przesyłki:");
+        PdfService.newPdfParagraph(document, "");
+        PdfService.newPdfParagraph(document, "Kod kreskowy do przesyłki:", TextAlignment.LEFT, 14);
         byte[] imageInBytes = BarCodeImage.getBarCodeImage(delivery.getId().toString(), 200, 50);
         ImageData imageData = ImageDataFactory.create(imageInBytes);
         com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(imageData);
