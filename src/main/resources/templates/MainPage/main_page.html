@@ -1,132 +1,216 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Search Products</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/css/all.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="bg-light">
+
+<div th:replace="navbar :: navigation"></div>
+
 <div class="container text-center">
-    <div th:replace="navbar :: navigation"></div>
-    <h1>Wyszukiwarka produtow</h1>
-
-    <h3><a th:href="@{/categories_panel}">Panel Kategorii</a></h3>
-
-    <a th:href="@{/add_productForm}" class="btn btn-primary mb-2">Dodaj produkt</a>
-    <form th:action="@{/}">
-
-        <h3>Filtry</h3>
-        <div>
-            <label>Cena do:</label>
-            <input type="text" th:field="${productSearchCriteria.searchedPriceLimit}"/>
+    <span class="card p-4 m-4" th:if="${top10List != null}">
+        <h3 class="mb-4"> Najczęściej wybierane </h3>
+        <div class="list-group-horizontal row">
+            <a class="list-group-item list-group-item-action column" th:each="product: ${top10List}"
+               th:href="@{'/product/'+ ${product.productId}}" style="width:20%" onmouseover="this.style.backgroundColor='#F0FFFF'"
+               onmouseout="this.style.backgroundColor='#FFFAFA'">
+                <div class="d-flex w-100 justify-content-between row">
+                    <div id="photo" class="pt-3 column" role="tabpanel"
+                         aria-labelledby="photo-tab">
+                            <div th:unless="${#strings.isEmpty(product.photo)}">
+                                <img th:src="${product.photo}"
+                                     id="myPhoto"
+                                     width="60"
+                                     height="auto">
+                            </div>
+                    </div>
+                    <div>
+                        <p class="m-0" th:text="${product.productName}"></p>
+                        <p class="m-0" th:text="${product.price} + ' zł'"></p>
+                    </div>
+                </div>
+            </a>
         </div>
-        <div>
-            <label>Tylko Dostepne:</label>
-            <input type="checkbox" th:field="${productSearchCriteria.showOnlyAvailable}" th:value="true">
-        </div>
-        <ul th:each="category : ${categoryList}">
-            <div>
-                <label th:text="${category.categoryName}"></label>
-                <input type="checkbox" th:field="${productSearchCriteria.searchedCategories}"
-                       th:value="${category.categoryName}">
+    </span>
+    <div class="row m-1 d-flex justify-content-center">
+        <form class="card p-4 mb-3 col-lg-2 h-50" th:action="@{/}">
+
+            <h3 class="me-auto">Filtry</h3>
+            <label class="mb-1">Czego szukasz?</label>
+            <input class="mb-1" type="text" th:field="${productSearchCriteria.searchedPhrase}"/>
+            <div class="d-flex flex-wrap p-0 mb-2">
+                <label class="me-3 mb-1">Cena do:</label>
+                <input class="w-100" type="text" th:field="${productSearchCriteria.searchedPriceLimit}"/>
             </div>
-        </ul>
-        <div class="col-8">
-            <input type="text" th:field="${productSearchCriteria.searchedPhrase}"/>
-            <button type="submit" class="btn btn-primary mb-1">Wyszukaj</button>
-            <a th:href="@{'/?productName='}" class="btn btn-primary mb-1">Wyczysc</a>
-        </div>
-
-        <span th:if="${top10List != null}">
-            <h1> Top 10 produktow </h1>
+            <div class="d-inline-flex p-0 mb-1">
+                <input type="checkbox" class="m-2" th:field="${productSearchCriteria.showOnlyAvailable}"
+                       th:value="true">
+                <label>Tylko dostepne </label>
+            </div>
+            <ul class="d-inline-flex p-0 mb-1" th:each="category : ${categoryList}">
+                <div>
+                    <input class="m-2" type="checkbox" th:field="${productSearchCriteria.searchedCategories}"
+                        th:value="${category.categoryName}">
+                    <label th:text="${category.categoryName}"></label>
+                </div>
+            </ul>
+            <div class="row mt-3">
+                <button type="submit" class="btn btn-primary mb-1">Wyszukaj</button>
+                <a th:href="@{'/?productName='}" class="btn btn-primary mb-1">Wyczyść</a>
+            </div>
+            <div class="input-group">
+                <label class="mb-1">Strona numer</label>
+                <div class="row d-flex justify-content-center">
+                    <a class="input-group-text w-25" id="decrement-quantity">
+                        <span>
+                            <i class="fas fa-caret-left"></i>
+                        </span>
+                    </a>
+                    <input class="w-25" type="text" th:field="${productPage.pageNumber}" id="page-number"/>
+                    <a class="input-group-text w-25" id="increment-quantity">
+                        <span>
+                            <i class="fas fa-caret-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <label class="mb-1 d-inline-flex">Ilość elementów na stronie</label>
+            <input type="text" th:field="${productPage.pageSize}" id="items-quantity"/>
+            <input type="hidden" th:field="${productPage.sortBy}"/>
+            <input type="hidden" th:field="${productPage.sortingDirection}"/>
+        </form>
+        <div class="card p-4 mb-3 me-0 col-lg-9 mx-auto">
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Produkty</th>
-                    <th>Cena</th>
-                    <th>Ilosc</th>
+                    <th></th>
+                    <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
+                            '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
+                            '&pageNumber=' + ${productPage.pageNumber} +
+                            '&pageSize=' + ${productPage.pageSize} +
+                            '&sortBy=' + ${productPage.sortBy} +
+                            '&sortingDirection=' + ${productPage.sortingDirection} +
+                            '&sortingAction=productName'}">
+                        Produkt</a></th>
+                    <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
+                            '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
+                            '&pageNumber=' + ${productPage.pageNumber} +
+                            '&pageSize=' + ${productPage.pageSize} +
+                            '&sortBy=' + ${productPage.sortBy} +
+                            '&sortingDirection=' + ${productPage.sortingDirection}+
+                            '&sortingAction=price'}">
+                        Cena</a></th>
+                    <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
+                            '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
+                            '&pageNumber=' + ${productPage.pageNumber} +
+                            '&pageSize=' + ${productPage.pageSize} +
+                            '&sortBy=' + ${productPage.sortBy} +
+                            '&sortingDirection=' + ${productPage.sortingDirection}+
+                            '&sortingAction=amount'}">
+                        Ilosc</a></th>
                     <th>Kategoria</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product: ${top10List}">
-                    <td th:text="${product.productName}"/>
-                    <td th:text="${product.price}"/>
-                    <td th:text="${product.amount}"/>
-                    <td>
-                        <table>
-                            <tr th:each="category: ${product.categoryFk}">
-                                <td th:text="${category.categoryName}"/>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                    <tr th:each="product: ${productList}">
+                        <td>
+                            <div th:unless="${#strings.isEmpty(product.photo)}">
+                                <img th:src="${product.photo}"
+                                     id="photoInList"
+                                     width="60"
+                                     height="auto">
+                            </div>
+                        </td>
+                        <td>
+                            <a th:text="${product.productName}"
+                               th:href="@{'/product/'+ ${product.productId}}"/>
+                        </td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.amount}"></td>
+                        <td>
+                            <table>
+                                <tr th:each="category: ${product.categoryFk}">
+                                    <td th:text="${category.categoryName}"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-        </span>
-
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-            <tr>
-                <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
-                    '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
-                    '&pageNumber=' + ${productPage.pageNumber} +
-                    '&pageSize=' + ${productPage.pageSize} +
-                    '&sortBy=' + ${productPage.sortBy} +
-                    '&sortingDirection=' + ${productPage.sortingDirection} +
-                    '&sortingAction=productName'}">
-                    Produkt</a></th>
-                <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
-                    '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
-                    '&pageNumber=' + ${productPage.pageNumber} +
-                    '&pageSize=' + ${productPage.pageSize} +
-                    '&sortBy=' + ${productPage.sortBy} +
-                    '&sortingDirection=' + ${productPage.sortingDirection}+
-                    '&sortingAction=price'}">
-                    Cena</a></th>
-                <th><a th:href="@{'/?productName=' + ${productSearchCriteria.searchedPhrase} +
-                    '&_searchedCategories=on&searchedPhrase=' + ${productCriteria.searchedPhrase} +
-                    '&pageNumber=' + ${productPage.pageNumber} +
-                    '&pageSize=' + ${productPage.pageSize} +
-                    '&sortBy=' + ${productPage.sortBy} +
-                    '&sortingDirection=' + ${productPage.sortingDirection}+
-                    '&sortingAction=amount'}">
-                    Ilosc</a></th>
-                <th>Kategoria</th>
-                <th>Akcje</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="product: ${productList}">
-                <td>
-                    <a th:text="${product.productName}"
-                       th:href="@{'/product/'+ ${product.productId}}"/>
-                </td>
-                <td th:text="${product.price}"></td>
-                <td th:text="${product.amount}"></td>
-                <td>
-                    <table>
-                        <tr th:each="category: ${product.categoryFk}">
-                            <td th:text="${category.categoryName}"></td>
-                        </tr>
-                    </table>
-                </td>
-                <td><a th:href="@{'/editProductForm/'+${product.productId}}" class="btn btn-primary mb-2">
-                    Edytuj Produkt</a>
-                    <a method=delete th:href="@{'/deleteProduct/'+${product.productId}}" met
-                       class="btn btn-primary mb-2">
-                        Usun Produkt</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <input type="text" th:field="${productPage.pageNumber}"/>
-        <input type="text" th:field="${productPage.pageSize}"/>
-        <input type="text" th:field="${productPage.sortBy}"/>
-        <input type="text" th:field="${productPage.sortingDirection}"/>
-    </form>
+        </div>
+    </div>
 </div>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+  $('#page-number').on('input', function() {
+  var c = this.selectionStart,
+      r = /[^1-9]/gi,
+      v = $(this).val();
+  console.log(v);
+  console.log(c);
+  if(r.test(v)) {
+    $(this).val(v.replace(r, ''));
+    c--;
+  }
+  this.setSelectionRange(c, c);
+});
+</script>
+
+<script>
+  $('#page-number').on('focusout', function() {
+  var v = $(this).val();
+  if (v == '') {
+    $(this).val("1");
+  }
+});
+</script>
+
+<script>
+  $("#increment-quantity").click(function(){
+    var inputField = document.getElementById("page-number");
+    inputField.setAttribute('value', inputField.value ++);
+});
+</script>
+<script>
+  $("#decrement-quantity").click(function(){
+  var inputField = document.getElementById("page-number");
+  if (inputField.value > 1) {
+    inputField.setAttribute('value', inputField.value --);
+  }
+});
+</script>
+
+<script>
+  $('#items-quantity').on('input', function() {
+  var c = this.selectionStart,
+      r = /[^1-9]/gi,
+      v = $(this).val();
+  if(r.test(v)) {
+    $(this).val(v.replace(r, ''));
+    c--;
+  }
+  this.setSelectionRange(c, c);
+});
+</script>
+
+<script>
+  $('#items-quantity').on('focusout', function() {
+  var v = $(this).val();
+  if (v == '') {
+    $(this).val("0");
+  }
+});
+</script>
+
 </body>
 </html>

@@ -93,6 +93,30 @@ public class ProductController {
         return "MainPage/main_page";
     }
 
+    @GetMapping("/admin_panel")
+    public String adminPanel(final Model model,
+                                 final ProductPage productPage,
+                                 final ProductSearchCriteria productSearchCriteria,
+                                 final String sortingAction) {
+
+        final List<Category> categoryList;
+        categoryList = categoryService.getAllCategories();
+        checkSortingOrder(sortingAction, productPage);
+
+        if (isSearching(productSearchCriteria)) {
+            final Page<Product> top10Products = getTop10();
+            model.addAttribute("top10List", top10Products);
+        }
+
+        final Page<Product> pageProduct = productService.getProducts(productPage, productSearchCriteria);
+
+        model.addAttribute("productCriteria", productSearchCriteria);
+        model.addAttribute("productList", pageProduct);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("categoryList", categoryList);
+        return "MainPage/admin_panel";
+    }
+
     private void checkSortingOrder(final String sortBy, final ProductPage productPage) {
         if (sortBy != null) {
             if (productPage.getSortBy().equals(sortBy)) {
