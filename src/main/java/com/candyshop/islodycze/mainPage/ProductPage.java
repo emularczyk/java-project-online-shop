@@ -1,12 +1,14 @@
 package com.candyshop.islodycze.mainPage;
 
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 
+@NoArgsConstructor
 public class ProductPage implements Serializable {
 
-    private int pageNumber = 0;
+    private int pageNumber = 1;
     private int pageSize = 10;
     private Sort.Direction sortingDirection = Sort.Direction.ASC;
     private String sortBy = "productName";
@@ -16,13 +18,6 @@ public class ProductPage implements Serializable {
         this.pageSize = pageSize;
         this.sortingDirection = sortingDirection;
         this.sortBy = sortBy;
-    }
-
-    public ProductPage() {
-        this.pageNumber = 0;
-        this.pageSize = 10;
-        this.sortingDirection = Sort.Direction.ASC;
-        this.sortBy = "productName";
     }
 
     public int getPageNumber() {

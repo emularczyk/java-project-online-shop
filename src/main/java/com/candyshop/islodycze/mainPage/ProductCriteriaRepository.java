@@ -36,7 +36,7 @@ public class ProductCriteriaRepository {
         setOrder(productPage, criteriaQuery, productRoot);
 
         final  TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
-        typedQuery.setFirstResult(productPage.getPageNumber() * productPage.getPageSize());
+        typedQuery.setFirstResult((productPage.getPageNumber() - 1) * productPage.getPageSize());
         typedQuery.setMaxResults(productPage.getPageSize());
 
         final Pageable pageable = getPagable(productPage);
@@ -74,21 +74,19 @@ public class ProductCriteriaRepository {
         }
         final Predicate otherFilters = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
 
-        if (listCategoryNames != null) {
-            if (!listCategoryNames.isEmpty()) {
-                for (String categoryName : listCategoryNames) {
-                    Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
-                    Root<Product> subqueryProduct = subquery.from(Product.class);
-                    Join<Category, Product> subqueryCategory = subqueryProduct.join("categoryFk");
+        if (listCategoryNames != null && !listCategoryNames.isEmpty()) {
+            for (String categoryName : listCategoryNames) {
+                Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+                Root<Product> subqueryProduct = subquery.from(Product.class);
+                Join<Category, Product> subqueryCategory = subqueryProduct.join("categoryFk");
 
-                    subquery.select(subqueryProduct.get("productId")).where(criteriaBuilder.equal(subqueryCategory
-                            .get("categoryName"), categoryName));
-                    categoryPredicate.add(criteriaBuilder.in(productRoot.get("productId")).value(subquery));
-                }
-                final Predicate categoryFilters = criteriaBuilder.or(categoryPredicate
-                        .toArray(new Predicate[0]));
-                return criteriaBuilder.and(otherFilters, categoryFilters);
+                subquery.select(subqueryProduct.get("productId")).where(criteriaBuilder.equal(subqueryCategory
+                        .get("categoryName"), categoryName));
+                categoryPredicate.add(criteriaBuilder.in(productRoot.get("productId")).value(subquery));
             }
+            final Predicate categoryFilters = criteriaBuilder.or(categoryPredicate
+                    .toArray(new Predicate[0]));
+            return criteriaBuilder.and(otherFilters, categoryFilters);
         }
         return otherFilters;
     }
@@ -105,7 +103,7 @@ public class ProductCriteriaRepository {
 
     private Pageable getPagable(ProductPage productPage) {
         final Sort sort = Sort.by(productPage.getSortingDirection(), productPage.getSortBy());
-        return PageRequest.of(productPage.getPageNumber(), productPage.getPageSize(), sort);
+        return PageRequest.of(productPage.getPageNumber() - 1, productPage.getPageSize(), sort);
     }
 
     private long getProductCount(Predicate predicate) {
