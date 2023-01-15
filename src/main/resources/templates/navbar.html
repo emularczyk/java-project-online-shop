@@ -34,6 +34,10 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto">
+            <li class="nav-item" th:if="${(#request.userPrincipal != null)
+              and (#strings.equals('[ADMIN]', #strings.toString(#request.userPrincipal.principal.authorities)))}">
+              <a class="nav-link" href="/admin_panel">Panel administratora</a>
+            </li>
             <li class="nav-item" th:unless="${#request.userPrincipal} == null">
               <a class="nav-link" href="/shopping_cart">Koszyk</a>
             </li>
