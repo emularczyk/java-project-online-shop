@@ -66,6 +66,13 @@
 			<artifactId>liquibase-core</artifactId>
 			<version>4.17.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>sign</artifactId>
+			<version>7.2.4</version>
+		</dependency>
+
 <!--Tests with front-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -105,8 +112,17 @@
 			<artifactId>font-awesome</artifactId>
 			<version>6.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.5.1</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
