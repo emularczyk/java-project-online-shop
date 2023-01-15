@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Category Panel</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
@@ -14,18 +14,33 @@
 <div class="container">
     <h1> Kategorie</h1>
 
-    <ul th:each="category : ${categoryList}">
-        <div>
-            <label th:text="${category.categoryName}"></label>
-            <a method=delete th:href="@{'/deleteCategory/'+${category.categoryName}}"
-               class="btn btn-primary mb-2">
-                Usun Kategorie</a>
-        </div>
-    </ul>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Kategoria</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category: ${categoryList}">
+            <td>
+                <label th:text="${category.categoryName}"></label>
+            </td>
+            <td> <a method=delete th:href="@{'/deleteCategory/'+${category.categoryName}}"
+                    class="btn btn-primary mb-2">
+                    Usuń Kategorię</a></td>
+        </tr>
+        </tbody>
+    </table>
+
     <h1>Nowa Kategoria</h1>
     <form th:action="@{/save_category}" method="post">
-        <input th:field="${newCategory.categoryName}" placeholder="Podaj nazwe kategorii" class="form-control" required/>
-        <button  type="submit" class="btn btn-primary">Zapisz kategorie</button>
+        <div>
+            <input th:field="${newCategory.categoryName}" placeholder="Podaj nazwe kategorii" class="form-control"
+                   required/>
+            <button type="submit" class="btn btn-primary">Zapisz kategorię</button>
+        </div>
+
     </form>
 </div>
 </body>
