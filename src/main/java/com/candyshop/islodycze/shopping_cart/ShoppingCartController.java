@@ -27,6 +27,7 @@ public class ShoppingCartController {
     @Autowired
     private UserRepository userRepository;
 
+    //List of user cart items.
     @GetMapping("/shopping_cart")
     public String shoppingCartList(final Model model, final Principal principalUser) {
         Object principal = ((UsernamePasswordAuthenticationToken) principalUser).getPrincipal();
@@ -40,6 +41,7 @@ public class ShoppingCartController {
         return "shopping_cart";
     }
 
+    //User deletes item from its cart request.
     @Transactional
     @GetMapping("/shopping_cart/remove/{productId}")
     public String removeShoppingCartItem(@PathVariable final Long productId,
@@ -52,6 +54,7 @@ public class ShoppingCartController {
         return "redirect:/shopping_cart";
     }
 
+    //User add item to its cart.
     @PostMapping("/shopping_cart/add_item")
     public String addItemsToShoppingCart(final Integer quantity, final Long productId, final Principal principalUser) {
 

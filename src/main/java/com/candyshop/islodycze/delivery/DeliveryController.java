@@ -26,6 +26,7 @@ public class DeliveryController {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    //Second step of order process - user fills delivery form.
     @GetMapping("/delivery_form/{orderId}")
     public String deliveryForm(@PathVariable("orderId") final Long orderId, final Model model) {
 
@@ -37,6 +38,7 @@ public class DeliveryController {
         return "delivery_form";
     }
 
+    //List of all delivery requests registered in the database.
     @GetMapping("/delivery_list")
     public String deliveryList(final Model model) {
         List<DeliveryEntity> deliveryList = repository.findAll();
@@ -46,6 +48,7 @@ public class DeliveryController {
         return "delivery_list";
     }
 
+    //Details of single delivery by order identifier.
     @GetMapping("/delivery_details/{orderId}")
     public String deliveryDetails(@PathVariable("orderId") final Long orderId, final Model model) {
         DeliveryEntity delivery = repository.findByOrderOrderId(orderId);
@@ -57,6 +60,7 @@ public class DeliveryController {
         return "delivery_not_found";
     }
 
+    //Post second process of order - user approves the delivery form.
     @Transactional
     @PostMapping("/process_delivery/{orderId}")
     public String processDelivery(@PathVariable("orderId") final Long orderId, final DeliveryEntity delivery) {

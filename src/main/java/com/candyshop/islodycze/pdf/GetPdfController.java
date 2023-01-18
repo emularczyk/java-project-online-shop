@@ -27,11 +27,7 @@ public class GetPdfController {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
-    @GetMapping("/pdfFile")
-    public String getPdf() {
-        return "getPdfFile";
-    }
-
+    //User generates pdf order confirmation.
     @GetMapping("/confirmationPdfExport/{orderId}")
     public void confirmationExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -45,6 +41,7 @@ public class GetPdfController {
         exporter.export(response);
     }
 
+    //User generates pdf transport label.
     @GetMapping("/transportLabelPdfExport/{orderId}")
     public void transportExportToPDF(HttpServletResponse response, @PathVariable("orderId") final Long orderId) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -59,8 +56,9 @@ public class GetPdfController {
         exporter.export(response);
     }
 
+    //Generating bar code image for transport label.
     @RequestMapping(value = "/barCode/{id}", method = RequestMethod.GET)
-    public void barcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
+    public void generateBarcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
 
         response.setContentType("image/png");
         OutputStream outputStream = response.getOutputStream();

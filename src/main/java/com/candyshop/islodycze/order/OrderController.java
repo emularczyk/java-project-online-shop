@@ -1,9 +1,7 @@
 package com.candyshop.islodycze.order;
 
 import com.candyshop.islodycze.exceptions.ApplicationException;
-import com.candyshop.islodycze.model.CartItem;
 import com.candyshop.islodycze.model.Order;
-import com.candyshop.islodycze.model.ProductOrder;
 import com.candyshop.islodycze.registration.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,7 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
+    //List of all orders for admin.
     @GetMapping("/order_list")
     public String orderList(final Model model) {
         List<Order> orderList = orderRepository.findAll();
@@ -45,6 +44,7 @@ public class OrderController {
         return "order_list";
     }
 
+    //List of all orders for user.
     @GetMapping("/user_order_list")
     public String userOrderList(final Model model, final Principal principalUser) {
         Long userId = getUserId((UsernamePasswordAuthenticationToken) principalUser);
@@ -57,6 +57,7 @@ public class OrderController {
         return "order_list";
     }
 
+    //First step of order - user approves a shopping cart state.
     @PostMapping("/process_order")
     public String processOrder(final String cartPrice, final Principal principalUser, final boolean isDiscount,
                                final Model model) {
@@ -73,6 +74,7 @@ public class OrderController {
         return "redirect:/delivery_form/" + orderId;
     }
 
+    //Third step of order - user approves a payment information.
     @Transactional
     @PostMapping("/process_payment/{orderId}")
     public String processDelivery(@PathVariable("orderId") final Long orderId, final Model model) {
@@ -101,22 +103,5 @@ public class OrderController {
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByEmail(username)
                 .getUserId();
-    }
-
-    private Set<ProductOrder> createProductToOrderSet(final Set<CartItem> cartItems) {
-        Set<ProductOrder> products = new HashSet<>();
-        cartItems.forEach(item -> products.add(ProductOrder.builder()
-                .productFk(item.getProduct())
-                .amount(item.getQuantity())
-                .build()));
-        return products;
-    }
-
-    private Double priceWithCurrencyToDouble(final String price) {
-        return Double.parseDouble(removeLastChars(price, 3));
-    }
-
-    private String removeLastChars(final String str, final int chars) {
-        return str.substring(0, str.length() - chars);
     }
 }
