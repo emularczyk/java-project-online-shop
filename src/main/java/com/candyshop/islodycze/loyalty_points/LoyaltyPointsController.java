@@ -15,6 +15,7 @@ public class LoyaltyPointsController {
     @Autowired
     private UserRepository userRepo;
 
+    //Rest endpoint to tighten the data for navigation bar.
     @GetMapping("/products/{username}")
     public UserEntity getUserLoyaltyPoints(@PathVariable("username") String username) {
         UserEntity userEntity = userRepo.findByEmail(username);

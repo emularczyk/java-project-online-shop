@@ -22,11 +22,7 @@ public class RegistrationController {
         @Autowired
         private UserServices service;
 
-        @GetMapping("")
-        public String viewHomePage() {
-            return "";
-        }
-
+        //Registration page.
         @GetMapping("/register")
         public String showRegistrationForm(Model model) {
                 model.addAttribute("user", new UserEntity());
@@ -34,14 +30,16 @@ public class RegistrationController {
                 return "signup_form";
         }
 
+        //List of users for admin.
         @GetMapping("/users")
-        public String listUsers(Model model) {
+        public String usersList(Model model) {
                 List<UserEntity> listUsers = userRepo.findAll();
                 model.addAttribute("listUsers", listUsers);
 
                 return "users";
         }
 
+        //User sends registration request.
         @PostMapping("/process_register")
         public String processRegister(UserEntity user, HttpServletRequest request)
                 throws UnsupportedEncodingException, MessagingException {
@@ -49,6 +47,7 @@ public class RegistrationController {
                 return "register_success";
         }
 
+        //User verifies its account.
         @GetMapping("/verify")
         public String verifyUser(@Param("code") String code) {
                 if (service.verify(code)) {
